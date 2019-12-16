@@ -66,12 +66,6 @@
       </BlazorOutputWithTargetPath>
     </ItemGroup>
 
-    <ItemGroup Label="Static content supplied by NuGet packages">
-      <_BlazorPackageContentOutput Include="@(BlazorPackageContentFile)" Condition="%(SourcePackage) != ''">
-        <TargetOutputPath>$(BaseBlazorPackageContentOutputPath)%(SourcePackage)\%(RecursiveDir)\%(Filename)%(Extension)</TargetOutputPath>
-      </_BlazorPackageContentOutput>
-      <BlazorOutputWithTargetPath Include="@(_BlazorPackageContentOutput)" />
-    </ItemGroup>
   </Target>
 
   <Target Name="_ResolveBlazorInputs" DependsOnTargets="ResolveReferences;ResolveRuntimePackAssets">

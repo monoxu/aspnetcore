@@ -1,0 +1,20 @@
+@inject NavigationManager Navigation
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@*#if (IndividualLocalAuth)
+@*#if (Hosted)
+@inject IOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>> Options
+#else
+@inject IOptions<RemoteAuthenticationOptions<OidcProviderOptions>> Options
+#endif*@
+#endif*@
+@*#if (IndividualB2CAuth || OrganizationalAuth)
+@inject IOptions<RemoteAuthenticationOptions<MsalProviderOptions>> Options
+#endif*@
+@code {
+
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo($"{Options.Value.AuthenticationPaths.LoginPath}?returnUrl={Navigation.Uri}");
+    }
+}

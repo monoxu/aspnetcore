@@ -1,0 +1,39 @@
+@page "/authentication/{action}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.Extensions.Options
+
+@*#if (IndividualLocalAuth)
+@*#if (Hosted)
+@inject IOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>> Options
+#else
+@inject IOptions<RemoteAuthenticationOptions<OidcProviderOptions>> Options
+#endif*@
+#endif*@
+@*#if (IndividualB2CAuth || OrganizationalAuth)
+@inject IOptions<RemoteAuthenticationOptions<MsalProviderOptions>> Options
+#endif*@
+@inject SignOutSessionStateManager SignOutSessionState
+@inject NavigationManager Navigation
+
+<DefaultAuthenticationManager Action="@Action" ApplicationPaths="@Options.Value.AuthenticationPaths" />
+
+@code{
+    [Parameter] public string Action { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (RemoteAuthenticationActions.IsAction(RemoteAuthenticationActions.Logout, Action) &&
+            !(await SignOutSessionState.ValidateSignOutState()))
+        {
+            string message = "The logout was not initiated from within the page";
+            Navigation.NavigateTo($"{Options.Value.AuthenticationPaths.LogoutFailedPath}?message={message}");
+        }
+    }
+
+
+    protected override bool ShouldRender()
+    {
+        return (!RemoteAuthenticationActions.IsAction(RemoteAuthenticationActions.Logout, Action) || SignOutSessionState.ValidSignOutState) &&
+            base.ShouldRender();
+    }
+}

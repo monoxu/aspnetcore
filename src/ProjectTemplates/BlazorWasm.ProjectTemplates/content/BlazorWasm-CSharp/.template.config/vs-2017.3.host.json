@@ -18,6 +18,40 @@
   "additionalWizardParameters": {
     "$isMultiProjectTemplate$": "true"
   },
+  "supportedAuthentications": [
+    {
+      "auth": "None",
+      "authenticationType": "NoAuth",
+      "allowUnsecured": true
+    },
+    {
+      "auth": "Individual",
+      "authenticationType": "IndividualAuth",
+      "b2cAuthenticationOptions": "Local"
+    },
+    {
+      "auth": "Individual",
+      "authenticationType": "IndividualAuth",
+      "b2cAuthenticationOptions": "CloudExisting"
+    },
+    {
+      "auth": "SingleOrg",
+      "authenticationType": "OrgAuth",
+      "orgAuthenticationOptions": "SSO"
+    }
+  ],
+  "ports": [
+    {
+      "name": "HttpPort",
+      "useHttps": false
+    },
+    {
+      "name": "HttpsPort",
+      "useHttps": true
+    }
+  ],
+  "excludeLaunchSettings": false,
+  "disableHttpsSymbol": "NoHttps",
   "symbolInfo": [
     {
       "id": "Hosted",

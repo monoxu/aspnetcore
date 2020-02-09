@@ -4,13 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>7.3</LangVersion>
     <UseLatestAspNetCoreReference>true</UseLatestAspNetCoreReference>
+    <DisableImplicitComponentsAnalyzers>true</DisableImplicitComponentsAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" />
     <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <Reference Include="Microsoft.AspNetCore.Identity.UI" />
-    <Reference Include="Microsoft.AspNetCore.ResponseCompression" />
     <Reference Include="Microsoft.EntityFrameworkCore.Relational" />
     <Reference Include="Microsoft.EntityFrameworkCore.SQLite" />
     <Reference Include="Microsoft.EntityFrameworkCore.Tools" />

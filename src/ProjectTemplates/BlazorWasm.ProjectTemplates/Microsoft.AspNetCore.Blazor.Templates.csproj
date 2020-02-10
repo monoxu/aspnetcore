@@ -45,6 +45,7 @@
     <PackageVersionVariableReference Include="$(BlazorProjectsRoot)Mono.WebAssembly.Interop\src\Mono.WebAssembly.Interop.csproj" />
     <PackageVersionVariableReference Include="$(BlazorProjectsRoot)Server\src\Microsoft.AspNetCore.Blazor.Server.csproj" />
     <PackageVersionVariableReference Include="$(BlazorProjectsRoot)WebAssembly.Authentication\src\Microsoft.AspNetCore.Components.WebAssembly.Authentication.csproj" />
+    <!-- <PackageVersionVariableReference Include="$(BlazorProjectsRoot)WebAssembly.Authentication\src\Blazor.Msal.csproj" /> -->
   </ItemGroup>
 
   <ItemGroup>

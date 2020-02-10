@@ -20,15 +20,18 @@
     },
     "AAdB2CInstance": {
       "longName": "aad-b2c-instance",
-      "shortName": ""
+      "shortName": "",
+      "isHidden": true
     },
     "SignUpSignInPolicyId": {
       "longName": "susi-policy-id",
-      "shortName": "ssp"
+      "shortName": "ssp",
+      "isHidden": true
     },
     "OrgReadAccess": {
       "longName": "org-read-access",
-      "shortName": "r"
+      "shortName": "r",
+      "isHidden": true
     },
     "ClientId": {
       "longName": "client-id",
@@ -36,23 +39,28 @@
     },
     "AppIDUri": {
       "longName": "app-id-uri",
-      "shortName": ""
+      "shortName": "",
+      "isHidden": true
     },
-    "APIClientId":{
+    "APIClientId": {
       "longName": "api-client-id",
-      "shortName": ""
+      "shortName": "",
+      "isHidden": true
     },
     "Domain": {
       "longName": "domain",
-      "shortName": ""
+      "shortName": "",
+      "isHidden": true
     },
     "TenantId": {
       "longName": "tenant-id",
-      "shortName": ""
+      "shortName": "",
+      "isHidden": true
     },
     "DefaultScope": {
       "longName": "default-scope",
-      "shortName": "s"
+      "shortName": "s",
+      "isHidden": true
     },
     "Authority": {
       "longName": "authority",

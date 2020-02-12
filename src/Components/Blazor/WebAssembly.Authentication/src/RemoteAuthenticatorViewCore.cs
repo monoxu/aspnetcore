@@ -15,6 +15,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
     public class RemoteAuthenticatorViewCore<TAuthenticationState> : ComponentBase where TAuthenticationState : RemoteAuthenticationState
     {
         private string _message;
+        private RemoteAuthenticationApplicationPathsOptions _applicationPaths;
 
         /// <summary>
         /// Gets or sets the <see cref="RemoteAuthenticationActions"/> action the component needs to handle.
@@ -86,10 +87,16 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// </summary>
         [Inject] public IRemoteAuthenticationService<TAuthenticationState> AuthenticationService { get; set; }
 
+        [Inject] public IRemoteAuthenticationPathsProvider RemoteApplicationPathsProvider { get; set; }
+
         /// <summary>
         /// Gets or sets the <see cref="RemoteAuthenticationApplicationPathsOptions"/> with the paths to different authentication pages.
         /// </summary>
-        [Parameter] public RemoteAuthenticationApplicationPathsOptions ApplicationPaths { get; set; }
+        [Parameter] public RemoteAuthenticationApplicationPathsOptions ApplicationPaths
+        {
+            get => _applicationPaths ?? RemoteApplicationPathsProvider.ApplicationPaths;
+            set => _applicationPaths = value;
+        }
 
         /// <inheritdoc />
         protected override void BuildRenderTree(RenderTreeBuilder builder)

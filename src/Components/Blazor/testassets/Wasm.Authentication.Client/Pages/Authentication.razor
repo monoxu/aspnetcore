@@ -5,7 +5,7 @@
 @inject SignOutSessionStateManager SignOutSessionState
 @inject NavigationManager Navigation
 
-<RemoteAuthenticatorView Action="@Action" ApplicationPaths="Options.Value.AuthenticationPaths" />
+<RemoteAuthenticatorView Action="@Action" />
 
 @code{
     [Parameter] public string Action { get; set; }

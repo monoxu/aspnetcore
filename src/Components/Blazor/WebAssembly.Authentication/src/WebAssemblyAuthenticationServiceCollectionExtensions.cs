@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -25,7 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The <see cref="IServiceCollection"/> where the services were registered.</returns>
         public static IServiceCollection AddRemoteAuthentication<TRemoteAuthenticationState, TProviderOptions>(this IServiceCollection services)
             where TRemoteAuthenticationState : RemoteAuthenticationState
-            where TProviderOptions : new()
+            where TProviderOptions : class, new()
         {
             services.AddOptions();
             services.AddAuthorizationCore();
@@ -39,6 +40,8 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 return (IAccessTokenProvider)sp.GetRequiredService<AuthenticationStateProvider>();
             });
+
+            services.TryAddSingleton<IRemoteAuthenticationPathsProvider, DefaultRemoteApplicationPathsProvider<TProviderOptions>>();
 
             services.TryAddSingleton<SignOutSessionStateManager>();
 
@@ -56,7 +59,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The <see cref="IServiceCollection"/> where the services were registered.</returns>
         public static IServiceCollection AddRemoteAuthentication<TRemoteAuthenticationState, TProviderOptions>(this IServiceCollection services, Action<RemoteAuthenticationOptions<TProviderOptions>> configure)
             where TRemoteAuthenticationState : RemoteAuthenticationState
-            where TProviderOptions : new()
+            where TProviderOptions : class, new()
         {
             services.AddRemoteAuthentication<RemoteAuthenticationState, TProviderOptions>();
             if (configure != null)

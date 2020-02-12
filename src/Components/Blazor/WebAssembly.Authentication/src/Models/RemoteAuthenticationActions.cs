@@ -4,7 +4,7 @@
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
     /// <summary>
-    /// Represents the list of authentication actions that can be performed by the <see cref="AuthenticationManager{TAuthenticationState}"/>.
+    /// Represents the list of authentication actions that can be performed by the <see cref="RemoteAuthenticatorViewCore{TAuthenticationState}"/>.
     /// </summary>
     public class RemoteAuthenticationActions
     {

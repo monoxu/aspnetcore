@@ -12,7 +12,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
     /// A component that handles remote authentication operations in an application.
     /// </summary>
     /// <typeparam name="TAuthenticationState">The user state type persisted while the operation is in progress. It must be serializable.</typeparam>
-    public class AuthenticationManager<TAuthenticationState> : ComponentBase where TAuthenticationState : RemoteAuthenticationState
+    public class RemoteAuthenticatorViewCore<TAuthenticationState> : ComponentBase where TAuthenticationState : RemoteAuthenticationState
     {
         private string _message;
 
@@ -283,7 +283,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private string GetReturnUrl(TAuthenticationState state, string defaultReturnUrl = null)
         {
-            if (state.ReturnUrl != null)
+            if (state?.ReturnUrl != null)
             {
                 return state.ReturnUrl;
             }

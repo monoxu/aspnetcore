@@ -14,15 +14,15 @@ using Xunit;
 
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
-    public class AuthenticationManagerTests
+    public class RemoteAuthenticatorCoreTests
     {
-        private const string _action = nameof(AuthenticationManager<RemoteAuthenticationState>.Action);
+        private const string _action = nameof(RemoteAuthenticatorViewCore<RemoteAuthenticationState>.Action);
 
         [Fact]
         public async Task AuthenticationManager_Throws_ForInvalidAction()
         {
             // Arrange
-            var manager = new AuthenticationManager<RemoteAuthenticationState>();
+            var remoteAuthenticator = new RemoteAuthenticatorViewCore<RemoteAuthenticationState>();
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
@@ -30,21 +30,21 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act & assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => manager.SetParametersAsync(parameters));
+            await Assert.ThrowsAsync<InvalidOperationException>(() => remoteAuthenticator.SetParametersAsync(parameters));
         }
 
         [Fact]
         public async Task AuthenticationManager_Login_NavigatesToReturnUrlOnSuccess()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/login?returnUrl=https://www.example.com/base/fetchData");
 
             authServiceMock.Setup(s => s.SignInAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
                 {
                     Status = RemoteAuthenticationStatus.Success,
-                    State = manager.AuthenticationState
+                    State = remoteAuthenticator.AuthenticationState
                 });
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -53,10 +53,10 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
-            Assert.Equal("https://www.example.com/base/fetchData", manager.Navigation.Uri);
+            Assert.Equal("https://www.example.com/base/fetchData", remoteAuthenticator.Navigation.Uri);
             authServiceMock.Verify();
         }
 
@@ -65,13 +65,13 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             // Arrange
             var originalUrl = "https://www.example.com/base/authentication/login?returnUrl=https://www.example.com/base/fetchData";
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(originalUrl);
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(originalUrl);
 
             authServiceMock.Setup(s => s.SignInAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
                 {
                     Status = RemoteAuthenticationStatus.Redirect,
-                    State = manager.AuthenticationState
+                    State = remoteAuthenticator.AuthenticationState
                 });
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -80,10 +80,10 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
-            Assert.Equal(originalUrl, manager.Navigation.Uri);
+            Assert.Equal(originalUrl, remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -92,7 +92,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_Login_NavigatesToLoginFailureOnError()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/login?returnUrl=https://www.example.com/base/fetchData");
 
             authServiceMock.Setup(s => s.SignInAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
@@ -108,12 +108,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal(
                 "https://www.example.com/base/authentication/login-failed?message=There was an error trying to log in",
-                manager.Navigation.Uri);
+                remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -122,7 +122,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_LoginCallback_ThrowsOnRedirectResult()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/login?returnUrl=https://www.example.com/base/fetchData");
 
             authServiceMock.Setup(s => s.CompleteSignInAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
@@ -139,7 +139,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             await Assert.ThrowsAsync<InvalidOperationException>(
                 async () => await renderer.Dispatcher.InvokeAsync<object>(async () =>
                 {
-                    await manager.SetParametersAsync(parameters);
+                    await remoteAuthenticator.SetParametersAsync(parameters);
                     return null;
                 }));
         }
@@ -149,7 +149,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             // Arrange
             var originalUrl = "https://www.example.com/base/authentication/login-callback?code=1234";
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 originalUrl);
 
             authServiceMock.Setup(s => s.CompleteSignInAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
@@ -164,10 +164,10 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
-            Assert.Equal(originalUrl, manager.Navigation.Uri);
+            Assert.Equal(originalUrl, remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -176,17 +176,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_LoginCallback_NavigatesToReturnUrlFromStateOnSuccess()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/login-callback?code=1234");
 
             var fetchDataUrl = "https://www.example.com/base/fetchData";
-            manager.AuthenticationState.ReturnUrl = fetchDataUrl;
+            remoteAuthenticator.AuthenticationState.ReturnUrl = fetchDataUrl;
 
             authServiceMock.Setup(s => s.CompleteSignInAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
                 {
                     Status = RemoteAuthenticationStatus.Success,
-                    State = manager.AuthenticationState
+                    State = remoteAuthenticator.AuthenticationState
                 });
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -195,7 +195,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal(fetchDataUrl, jsRuntime.LastInvocation.args[0]);
@@ -207,11 +207,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_LoginCallback_NavigatesToLoginFailureOnError()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/login-callback?code=1234");
 
             var fetchDataUrl = "https://www.example.com/base/fetchData";
-            manager.AuthenticationState.ReturnUrl = fetchDataUrl;
+            remoteAuthenticator.AuthenticationState.ReturnUrl = fetchDataUrl;
 
             authServiceMock.Setup(s => s.CompleteSignInAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
@@ -226,12 +226,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal(
                 "https://www.example.com/base/authentication/login-failed?message=There was an error trying to log in",
-                manager.Navigation.Uri);
+                remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -240,7 +240,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_Logout_NavigatesToReturnUrlOnSuccess()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/logout?returnUrl=https://www.example.com/base/");
 
             authServiceMock.Setup(s => s.GetCurrentUser())
@@ -250,7 +250,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
                 {
                     Status = RemoteAuthenticationStatus.Success,
-                    State = manager.AuthenticationState
+                    State = remoteAuthenticator.AuthenticationState
                 });
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -259,7 +259,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal("https://www.example.com/base/", jsRuntime.LastInvocation.args[0]);
@@ -270,7 +270,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_Logout_NavigatesToDefaultReturnUrlWhenNoReturnUrlIsPresent()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/logout");
 
             authServiceMock.Setup(s => s.GetCurrentUser())
@@ -280,7 +280,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
                 {
                     Status = RemoteAuthenticationStatus.Success,
-                    State = manager.AuthenticationState
+                    State = remoteAuthenticator.AuthenticationState
                 });
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -289,7 +289,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal("https://www.example.com/base/authentication/logged-out", jsRuntime.LastInvocation.args[0]);
@@ -301,7 +301,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             // Arrange
             var originalUrl = "https://www.example.com/base/authentication/login?returnUrl=https://www.example.com/base/fetchData";
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(originalUrl);
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(originalUrl);
 
             authServiceMock.Setup(s => s.GetCurrentUser())
                 .ReturnsAsync(new ClaimsPrincipal(new ClaimsIdentity("Test")));
@@ -310,7 +310,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
                 {
                     Status = RemoteAuthenticationStatus.Redirect,
-                    State = manager.AuthenticationState
+                    State = remoteAuthenticator.AuthenticationState
                 });
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -319,10 +319,10 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
-            Assert.Equal(originalUrl, manager.Navigation.Uri);
+            Assert.Equal(originalUrl, remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -331,7 +331,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_Logout_NavigatesToLogoutFailureOnError()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/logout?returnUrl=https://www.example.com/base/fetchData");
 
             authServiceMock.Setup(s => s.GetCurrentUser())
@@ -350,12 +350,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal(
                 "https://www.example.com/base/authentication/logout-failed?message=There was an error trying to log out",
-                manager.Navigation.Uri);
+                remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -364,7 +364,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_LogoutCallback_ThrowsOnRedirectResult()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/logout-callback?returnUrl=https://www.example.com/base/fetchData");
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -382,7 +382,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             await Assert.ThrowsAsync<InvalidOperationException>(
                 async () => await renderer.Dispatcher.InvokeAsync<object>(async () =>
                 {
-                    await manager.SetParametersAsync(parameters);
+                    await remoteAuthenticator.SetParametersAsync(parameters);
                     return null;
                 }));
         }
@@ -392,7 +392,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             // Arrange
             var originalUrl = "https://www.example.com/base/authentication/logout-callback?code=1234";
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 originalUrl);
 
             authServiceMock.Setup(s => s.CompleteSignOutAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
@@ -407,10 +407,10 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
-            Assert.Equal(originalUrl, manager.Navigation.Uri);
+            Assert.Equal(originalUrl, remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -419,17 +419,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_LogoutCallback_NavigatesToReturnUrlFromStateOnSuccess()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/logout-callback-callback?code=1234");
 
             var fetchDataUrl = "https://www.example.com/base/fetchData";
-            manager.AuthenticationState.ReturnUrl = fetchDataUrl;
+            remoteAuthenticator.AuthenticationState.ReturnUrl = fetchDataUrl;
 
             authServiceMock.Setup(s => s.CompleteSignOutAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
                 {
                     Status = RemoteAuthenticationStatus.Success,
-                    State = manager.AuthenticationState
+                    State = remoteAuthenticator.AuthenticationState
                 });
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
@@ -438,7 +438,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal(fetchDataUrl, jsRuntime.LastInvocation.args[0]);
@@ -450,11 +450,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public async Task AuthenticationManager_LogoutCallback_NavigatesToLoginFailureOnError()
         {
             // Arrange
-            var (manager, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
+            var (remoteAuthenticator, renderer, authServiceMock, jsRuntime) = CreateAuthenticationManager(
                 "https://www.example.com/base/authentication/logout-callback?code=1234");
 
             var fetchDataUrl = "https://www.example.com/base/fetchData";
-            manager.AuthenticationState.ReturnUrl = fetchDataUrl;
+            remoteAuthenticator.AuthenticationState.ReturnUrl = fetchDataUrl;
 
             authServiceMock.Setup(s => s.CompleteSignOutAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
                 .ReturnsAsync(new RemoteAuthenticationResult<RemoteAuthenticationState>()
@@ -469,12 +469,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => remoteAuthenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.Equal(
                 "https://www.example.com/base/authentication/logout-failed?message=There was an error trying to log out",
-                manager.Navigation.Uri);
+                remoteAuthenticator.Navigation.Uri);
 
             authServiceMock.Verify();
         }
@@ -482,39 +482,39 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public static TheoryData<UIValidator> DisplaysRightUIData { get; } = new TheoryData<UIValidator>
         {
             { new UIValidator {
-                Action = "login", SetupAction = (validator, manager) => { manager.LogingIn = validator.Render; } }
+                Action = "login", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.LogingIn = validator.Render; } }
             },
             { new UIValidator {
-                Action = "login-callback", SetupAction = (validator, manager) => { manager.CompletingLogingIn = validator.Render; } }
+                Action = "login-callback", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.CompletingLogingIn = validator.Render; } }
             },
             { new UIValidator {
-                Action = "login-failed", SetupAction = (validator, manager) => { manager.LogInFailed = m => builder => validator.Render(builder); } }
+                Action = "login-failed", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.LogInFailed = m => builder => validator.Render(builder); } }
             },
             { new UIValidator {
-                Action = "profile", SetupAction = (validator, manager) => { manager.LogingIn = validator.Render; } }
+                Action = "profile", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.LogingIn = validator.Render; } }
             },
             // Profile fragment overrides
             { new UIValidator {
-                Action = "profile", SetupAction = (validator, manager) => { manager.UserProfile = validator.Render; } }
+                Action = "profile", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.UserProfile = validator.Render; } }
             },
             { new UIValidator {
-                Action = "register", SetupAction = (validator, manager) => { manager.LogingIn = validator.Render; } }
+                Action = "register", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.LogingIn = validator.Render; } }
             },
             // Register fragment overrides
             { new UIValidator {
-                Action = "register", SetupAction = (validator, manager) => { manager.Registering = validator.Render; } }
+                Action = "register", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.Registering = validator.Render; } }
             },
             { new UIValidator {
-                Action = "logout", SetupAction = (validator, manager) => { manager.LogOut = validator.Render; } }
+                Action = "logout", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.LogOut = validator.Render; } }
             },
             { new UIValidator {
-                Action = "logout-callback", SetupAction = (validator, manager) => { manager.CompletingLogOut = validator.Render; } }
+                Action = "logout-callback", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.CompletingLogOut = validator.Render; } }
             },
             { new UIValidator {
-                Action = "logout-failed", SetupAction = (validator, manager) => { manager.LogOutFailed = m => builder => validator.Render(builder); } }
+                Action = "logout-failed", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.LogOutFailed = m => builder => validator.Render(builder); } }
             },
             { new UIValidator {
-                Action = "logged-out", SetupAction = (validator, manager) => { manager.LogOutSucceded = validator.Render; } }
+                Action = "logged-out", SetupAction = (validator, remoteAuthenticator) => { remoteAuthenticator.LogOutSucceded = validator.Render; } }
             },
         };
 
@@ -524,9 +524,9 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             // Arrange
             var renderer = new TestRenderer(new ServiceCollection().BuildServiceProvider());
-            var manager = new TestAuthenticationManager();
-            renderer.Attach(manager);
-            validator.Setup(manager);
+            var authenticator = new TestRemoteAuthenticatorView();
+            renderer.Attach(authenticator);
+            validator.Setup(authenticator);
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
@@ -534,7 +534,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             });
 
             // Act
-            await renderer.Dispatcher.InvokeAsync<object>(() => manager.SetParametersAsync(parameters));
+            await renderer.Dispatcher.InvokeAsync<object>(() => authenticator.SetParametersAsync(parameters));
 
             // Assert
             Assert.True(validator.WasCalled);
@@ -543,17 +543,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public class UIValidator
         {
             public string Action { get; set; }
-            public Action<UIValidator, AuthenticationManager<RemoteAuthenticationState>> SetupAction { get; set; }
+            public Action<UIValidator, RemoteAuthenticatorViewCore<RemoteAuthenticationState>> SetupAction { get; set; }
             public bool WasCalled { get; set; }
             public RenderFragment Render { get; set; }
 
             public UIValidator() => Render = builder => WasCalled = true;
 
-            internal void Setup(TestAuthenticationManager manager) => SetupAction(this, manager);
+            internal void Setup(TestRemoteAuthenticatorView manager) => SetupAction(this, manager);
         }
 
         private static
-            (AuthenticationManager<RemoteAuthenticationState> manager,
+            (RemoteAuthenticatorViewCore<RemoteAuthenticationState> manager,
             TestRenderer renderer,
             Mock<IRemoteAuthenticationService<RemoteAuthenticationState>> authenticationServiceMock,
             TestJsRuntime js)
@@ -563,22 +563,22 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             string baseUri = "https://www.example.com/base/")
         {
             var renderer = new TestRenderer(new ServiceCollection().BuildServiceProvider());
-            var manager = new AuthenticationManager<RemoteAuthenticationState>();
-            renderer.Attach(manager);
+            var remoteAuthenticator = new RemoteAuthenticatorViewCore<RemoteAuthenticationState>();
+            renderer.Attach(remoteAuthenticator);
 
-            manager.Navigation = new TestNavigationManager(
+            remoteAuthenticator.Navigation = new TestNavigationManager(
                 baseUri,
                 currentUri);
 
-            manager.AuthenticationState = new RemoteAuthenticationState();
-            manager.ApplicationPaths = new RemoteAuthenticationApplicationPathsOptions();
+            remoteAuthenticator.AuthenticationState = new RemoteAuthenticationState();
+            remoteAuthenticator.ApplicationPaths = new RemoteAuthenticationApplicationPathsOptions();
 
             var authenticationServiceMock = new Mock<IRemoteAuthenticationService<RemoteAuthenticationState>>();
 
-            manager.AuthenticationService = authenticationServiceMock.Object;
+            remoteAuthenticator.AuthenticationService = authenticationServiceMock.Object;
             var jsRuntime = new TestJsRuntime();
-            manager.JS = jsRuntime;
-            return (manager, renderer, authenticationServiceMock, jsRuntime);
+            remoteAuthenticator.JS = jsRuntime;
+            return (remoteAuthenticator, renderer, authenticationServiceMock, jsRuntime);
         }
 
         private class TestNavigationManager : NavigationManager
@@ -604,9 +604,9 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             }
         }
 
-        public class TestAuthenticationManager : AuthenticationManager<RemoteAuthenticationState>
+        public class TestRemoteAuthenticatorView : RemoteAuthenticatorViewCore<RemoteAuthenticationState>
         {
-            public TestAuthenticationManager()
+            public TestRemoteAuthenticatorView()
             {
                 ApplicationPaths = new RemoteAuthenticationApplicationPathsOptions() {
                     RemoteProfilePath = "Identity/Account/Manage",

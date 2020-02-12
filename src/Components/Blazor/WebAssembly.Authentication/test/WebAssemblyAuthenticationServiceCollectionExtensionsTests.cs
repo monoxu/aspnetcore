@@ -42,17 +42,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var paths = options.Value.AuthenticationPaths;
 
-            Assert.Equal("authentication/login", paths.LoginPath);
-            Assert.Equal("authentication/login-callback", paths.LoginCallbackPath);
-            Assert.Equal("authentication/login-failed", paths.LoginFailedPath);
+            Assert.Equal("authentication/login", paths.LogInPath);
+            Assert.Equal("authentication/login-callback", paths.LogInCallbackPath);
+            Assert.Equal("authentication/login-failed", paths.LogInFailedPath);
             Assert.Equal("authentication/register", paths.RegisterPath);
             Assert.Equal("authentication/profile", paths.ProfilePath);
             Assert.Equal("Identity/Account/Register", paths.RemoteRegisterPath);
             Assert.Equal("Identity/Account/Manage", paths.RemoteProfilePath);
-            Assert.Equal("authentication/logout", paths.LogoutPath);
-            Assert.Equal("authentication/logout-callback", paths.LogoutCallbackPath);
-            Assert.Equal("authentication/logout-failed", paths.LogoutFailedPath);
-            Assert.Equal("authentication/logged-out", paths.LogoutSucceededPath);
+            Assert.Equal("authentication/logout", paths.LogOutPath);
+            Assert.Equal("authentication/logout-callback", paths.LogOutCallbackPath);
+            Assert.Equal("authentication/logout-failed", paths.LogOutFailedPath);
+            Assert.Equal("authentication/logged-out", paths.LogOutSucceededPath);
 
             var user = options.Value.UserOptions;
             Assert.Equal("Microsoft.AspNetCore.Components.WebAssembly.Authentication.Tests", user.AuthenticationType);
@@ -73,17 +73,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             {
                 options.AuthenticationPaths = new RemoteAuthenticationApplicationPathsOptions
                 {
-                    LoginPath = "a",
-                    LoginCallbackPath = "b",
-                    LoginFailedPath = "c",
+                    LogInPath = "a",
+                    LogInCallbackPath = "b",
+                    LogInFailedPath = "c",
                     RegisterPath = "d",
                     ProfilePath = "e",
                     RemoteRegisterPath = "f",
                     RemoteProfilePath = "g",
-                    LogoutPath = "h",
-                    LogoutCallbackPath = "i",
-                    LogoutFailedPath = "j",
-                    LogoutSucceededPath = "k",
+                    LogOutPath = "h",
+                    LogOutCallbackPath = "i",
+                    LogOutFailedPath = "j",
+                    LogOutSucceededPath = "k",
                 };
                 options.UserOptions = new RemoteAuthenticationUserOptions
                 {
@@ -104,17 +104,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var paths = options.Value.AuthenticationPaths;
 
-            Assert.Equal("a", paths.LoginPath);
-            Assert.Equal("b", paths.LoginCallbackPath);
-            Assert.Equal("c", paths.LoginFailedPath);
+            Assert.Equal("a", paths.LogInPath);
+            Assert.Equal("b", paths.LogInCallbackPath);
+            Assert.Equal("c", paths.LogInFailedPath);
             Assert.Equal("d", paths.RegisterPath);
             Assert.Equal("e", paths.ProfilePath);
             Assert.Equal("f", paths.RemoteRegisterPath);
             Assert.Equal("g", paths.RemoteProfilePath);
-            Assert.Equal("h", paths.LogoutPath);
-            Assert.Equal("i", paths.LogoutCallbackPath);
-            Assert.Equal("j", paths.LogoutFailedPath);
-            Assert.Equal("k", paths.LogoutSucceededPath);
+            Assert.Equal("h", paths.LogOutPath);
+            Assert.Equal("i", paths.LogOutCallbackPath);
+            Assert.Equal("j", paths.LogOutFailedPath);
+            Assert.Equal("k", paths.LogOutSucceededPath);
 
             var user = options.Value.UserOptions;
             Assert.Equal("l", user.AuthenticationType);
@@ -137,17 +137,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var paths = options.Value.AuthenticationPaths;
 
-            Assert.Equal("authentication/login", paths.LoginPath);
-            Assert.Equal("authentication/login-callback", paths.LoginCallbackPath);
-            Assert.Equal("authentication/login-failed", paths.LoginFailedPath);
+            Assert.Equal("authentication/login", paths.LogInPath);
+            Assert.Equal("authentication/login-callback", paths.LogInCallbackPath);
+            Assert.Equal("authentication/login-failed", paths.LogInFailedPath);
             Assert.Equal("authentication/register", paths.RegisterPath);
             Assert.Equal("authentication/profile", paths.ProfilePath);
             Assert.Null(paths.RemoteRegisterPath);
             Assert.Null(paths.RemoteProfilePath);
-            Assert.Equal("authentication/logout", paths.LogoutPath);
-            Assert.Equal("authentication/logout-callback", paths.LogoutCallbackPath);
-            Assert.Equal("authentication/logout-failed", paths.LogoutFailedPath);
-            Assert.Equal("authentication/logged-out", paths.LogoutSucceededPath);
+            Assert.Equal("authentication/logout", paths.LogOutPath);
+            Assert.Equal("authentication/logout-callback", paths.LogOutCallbackPath);
+            Assert.Equal("authentication/logout-failed", paths.LogOutFailedPath);
+            Assert.Equal("authentication/logged-out", paths.LogOutSucceededPath);
 
             var user = options.Value.UserOptions;
             Assert.Null(user.AuthenticationType);
@@ -171,17 +171,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             {
                 options.AuthenticationPaths = new RemoteAuthenticationApplicationPathsOptions
                 {
-                    LoginPath = "a",
-                    LoginCallbackPath = "b",
-                    LoginFailedPath = "c",
+                    LogInPath = "a",
+                    LogInCallbackPath = "b",
+                    LogInFailedPath = "c",
                     RegisterPath = "d",
                     ProfilePath = "e",
                     RemoteRegisterPath = "f",
                     RemoteProfilePath = "g",
-                    LogoutPath = "h",
-                    LogoutCallbackPath = "i",
-                    LogoutFailedPath = "j",
-                    LogoutSucceededPath = "k",
+                    LogOutPath = "h",
+                    LogOutCallbackPath = "i",
+                    LogOutFailedPath = "j",
+                    LogOutSucceededPath = "k",
                 };
                 options.UserOptions = new RemoteAuthenticationUserOptions
                 {
@@ -206,17 +206,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var paths = options.Value.AuthenticationPaths;
 
-            Assert.Equal("a", paths.LoginPath);
-            Assert.Equal("b", paths.LoginCallbackPath);
-            Assert.Equal("c", paths.LoginFailedPath);
+            Assert.Equal("a", paths.LogInPath);
+            Assert.Equal("b", paths.LogInCallbackPath);
+            Assert.Equal("c", paths.LogInFailedPath);
             Assert.Equal("d", paths.RegisterPath);
             Assert.Equal("e", paths.ProfilePath);
             Assert.Equal("f", paths.RemoteRegisterPath);
             Assert.Equal("g", paths.RemoteProfilePath);
-            Assert.Equal("h", paths.LogoutPath);
-            Assert.Equal("i", paths.LogoutCallbackPath);
-            Assert.Equal("j", paths.LogoutFailedPath);
-            Assert.Equal("k", paths.LogoutSucceededPath);
+            Assert.Equal("h", paths.LogOutPath);
+            Assert.Equal("i", paths.LogOutCallbackPath);
+            Assert.Equal("j", paths.LogOutFailedPath);
+            Assert.Equal("k", paths.LogOutSucceededPath);
 
             var user = options.Value.UserOptions;
             Assert.Equal("l", user.AuthenticationType);

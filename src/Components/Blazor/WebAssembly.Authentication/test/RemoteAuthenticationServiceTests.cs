@@ -402,17 +402,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 {
                     AuthenticationPaths = new RemoteAuthenticationApplicationPathsOptions
                     {
-                        LoginPath = "a",
-                        LoginCallbackPath = "a",
-                        LoginFailedPath = "a",
+                        LogInPath = "a",
+                        LogInCallbackPath = "a",
+                        LogInFailedPath = "a",
                         RegisterPath = "a",
                         ProfilePath = "a",
                         RemoteRegisterPath = "a",
                         RemoteProfilePath = "a",
-                        LogoutPath = "a",
-                        LogoutCallbackPath = "a",
-                        LogoutFailedPath = "a",
-                        LogoutSucceededPath = "a",
+                        LogOutPath = "a",
+                        LogOutCallbackPath = "a",
+                        LogOutFailedPath = "a",
+                        LogOutSucceededPath = "a",
                     },
                     UserOptions = new RemoteAuthenticationUserOptions
                     {

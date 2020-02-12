@@ -49,7 +49,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.Login
+                [_action] = RemoteAuthenticationActions.LogIn
             });
 
             // Act
@@ -76,7 +76,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.Login
+                [_action] = RemoteAuthenticationActions.LogIn
             });
 
             // Act
@@ -104,7 +104,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.Login
+                [_action] = RemoteAuthenticationActions.LogIn
             });
 
             // Act
@@ -133,7 +133,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LoginCallback
+                [_action] = RemoteAuthenticationActions.LogInCallback
             });
 
             await Assert.ThrowsAsync<InvalidOperationException>(
@@ -160,7 +160,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LoginCallback
+                [_action] = RemoteAuthenticationActions.LogInCallback
             });
 
             // Act
@@ -191,7 +191,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LoginCallback
+                [_action] = RemoteAuthenticationActions.LogInCallback
             });
 
             // Act
@@ -222,7 +222,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LoginCallback
+                [_action] = RemoteAuthenticationActions.LogInCallback
             });
 
             // Act
@@ -255,7 +255,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.Logout
+                [_action] = RemoteAuthenticationActions.LogOut
             });
 
             // Act
@@ -285,7 +285,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.Logout
+                [_action] = RemoteAuthenticationActions.LogOut
             });
 
             // Act
@@ -315,7 +315,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.Logout
+                [_action] = RemoteAuthenticationActions.LogOut
             });
 
             // Act
@@ -346,7 +346,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.Logout
+                [_action] = RemoteAuthenticationActions.LogOut
             });
 
             // Act
@@ -369,7 +369,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LogoutCallback
+                [_action] = RemoteAuthenticationActions.LogOutCallback
             });
 
             authServiceMock.Setup(s => s.CompleteSignOutAsync(It.IsAny<RemoteAuthenticationContext<RemoteAuthenticationState>>()))
@@ -403,7 +403,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LogoutCallback
+                [_action] = RemoteAuthenticationActions.LogOutCallback
             });
 
             // Act
@@ -434,7 +434,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LogoutCallback
+                [_action] = RemoteAuthenticationActions.LogOutCallback
             });
 
             // Act
@@ -465,7 +465,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
             var parameters = ParameterView.FromDictionary(new Dictionary<string, object>
             {
-                [_action] = RemoteAuthenticationActions.LogoutCallback
+                [_action] = RemoteAuthenticationActions.LogOutCallback
             });
 
             // Act
@@ -482,39 +482,39 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public static TheoryData<UIValidator> DisplaysRightUIData { get; } = new TheoryData<UIValidator>
         {
             { new UIValidator {
-                Action = "login", SetupAction = (validator, manager) => { manager.LoginFragment = validator.Render; } }
+                Action = "login", SetupAction = (validator, manager) => { manager.LogingIn = validator.Render; } }
             },
             { new UIValidator {
-                Action = "login-callback", SetupAction = (validator, manager) => { manager.LoginCallbackFragment = validator.Render; } }
+                Action = "login-callback", SetupAction = (validator, manager) => { manager.CompletingLogingIn = validator.Render; } }
             },
             { new UIValidator {
-                Action = "login-failed", SetupAction = (validator, manager) => { manager.LoginFailedFragment = m => builder => validator.Render(builder); } }
+                Action = "login-failed", SetupAction = (validator, manager) => { manager.LogInFailed = m => builder => validator.Render(builder); } }
             },
             { new UIValidator {
-                Action = "profile", SetupAction = (validator, manager) => { manager.LoginFragment = validator.Render; } }
+                Action = "profile", SetupAction = (validator, manager) => { manager.LogingIn = validator.Render; } }
             },
             // Profile fragment overrides
             { new UIValidator {
-                Action = "profile", SetupAction = (validator, manager) => { manager.ProfileFragment = validator.Render; } }
+                Action = "profile", SetupAction = (validator, manager) => { manager.UserProfile = validator.Render; } }
             },
             { new UIValidator {
-                Action = "register", SetupAction = (validator, manager) => { manager.LoginFragment = validator.Render; } }
+                Action = "register", SetupAction = (validator, manager) => { manager.LogingIn = validator.Render; } }
             },
             // Register fragment overrides
             { new UIValidator {
-                Action = "register", SetupAction = (validator, manager) => { manager.RegisterFragment = validator.Render; } }
+                Action = "register", SetupAction = (validator, manager) => { manager.Registering = validator.Render; } }
             },
             { new UIValidator {
-                Action = "logout", SetupAction = (validator, manager) => { manager.LogoutFragment = validator.Render; } }
+                Action = "logout", SetupAction = (validator, manager) => { manager.LogOut = validator.Render; } }
             },
             { new UIValidator {
-                Action = "logout-callback", SetupAction = (validator, manager) => { manager.LogoutCallbackFragment = validator.Render; } }
+                Action = "logout-callback", SetupAction = (validator, manager) => { manager.CompletingLogOut = validator.Render; } }
             },
             { new UIValidator {
-                Action = "logout-failed", SetupAction = (validator, manager) => { manager.LogoutFailedFragment = m => builder => validator.Render(builder); } }
+                Action = "logout-failed", SetupAction = (validator, manager) => { manager.LogOutFailed = m => builder => validator.Render(builder); } }
             },
             { new UIValidator {
-                Action = "logged-out", SetupAction = (validator, manager) => { manager.LoggedOutFragment = validator.Render; } }
+                Action = "logged-out", SetupAction = (validator, manager) => { manager.LogOutSucceded = validator.Render; } }
             },
         };
 

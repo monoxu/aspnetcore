@@ -9,19 +9,19 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
     public class RemoteAuthenticationActions
     {
         /// <summary>
-        /// The login action.
+        /// The log in action.
         /// </summary>
-        public const string Login = "login";
+        public const string LogIn = "login";
 
         /// <summary>
-        /// The login callback action.
+        /// The log in callback action.
         /// </summary>
-        public const string LoginCallback = "login-callback";
+        public const string LogInCallback = "login-callback";
 
         /// <summary>
-        /// The login failed action.
+        /// The log in failed action.
         /// </summary>
-        public const string LoginFailed = "login-failed";
+        public const string LogInFailed = "login-failed";
 
         /// <summary>
         /// The navigate to user profile action.
@@ -34,24 +34,24 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public const string Register = "register";
 
         /// <summary>
-        /// The logout action.
+        /// The log out action.
         /// </summary>
-        public const string Logout = "logout";
+        public const string LogOut = "logout";
 
         /// <summary>
-        /// The logout callback action.
+        /// The log out callback action.
         /// </summary>
-        public const string LogoutCallback = "logout-callback";
+        public const string LogOutCallback = "logout-callback";
 
         /// <summary>
-        /// The logout failed action.
+        /// The log out failed action.
         /// </summary>
-        public const string LogoutFailed = "logout-failed";
+        public const string LogOutFailed = "logout-failed";
 
         /// <summary>
-        /// The logout succeeded action.
+        /// The log out succeeded action.
         /// </summary>
-        public const string LogoutSucceeded = "logged-out";
+        public const string LogOutSucceeded = "logged-out";
 
         /// <summary>
         /// Whether or not a given <paramref name="candidate"/> represents a given <see cref="RemoteAuthenticationActions"/>.

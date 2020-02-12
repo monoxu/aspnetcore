@@ -23,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TProviderOptions">The configuration options of the underlying provider being used for handling the authentication operations.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
         /// <returns>The <see cref="IServiceCollection"/> where the services were registered.</returns>
-        public static IServiceCollection AddSpaAuthentication<TRemoteAuthenticationState, TProviderOptions>(this IServiceCollection services)
+        public static IServiceCollection AddRemoteAuthentication<TRemoteAuthenticationState, TProviderOptions>(this IServiceCollection services)
             where TRemoteAuthenticationState : RemoteAuthenticationState
             where TProviderOptions : new()
         {
@@ -54,11 +54,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
         /// <param name="configure">An action that will configure the <see cref="RemoteAuthenticationOptions{TProviderOptions}"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/> where the services were registered.</returns>
-        public static IServiceCollection AddSpaAuthentication<TRemoteAuthenticationState, TProviderOptions>(this IServiceCollection services, Action<RemoteAuthenticationOptions<TProviderOptions>> configure)
+        public static IServiceCollection AddRemoteAuthentication<TRemoteAuthenticationState, TProviderOptions>(this IServiceCollection services, Action<RemoteAuthenticationOptions<TProviderOptions>> configure)
             where TRemoteAuthenticationState : RemoteAuthenticationState
             where TProviderOptions : new()
         {
-            services.AddSpaAuthentication<RemoteAuthenticationState, TProviderOptions>();
+            services.AddRemoteAuthentication<RemoteAuthenticationState, TProviderOptions>();
             if (configure != null)
             {
                 services.Configure(configure);
@@ -75,7 +75,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The <see cref="IServiceCollection"/> where the services were registered.</returns>
         public static IServiceCollection AddOidcAuthentication(this IServiceCollection services, Action<RemoteAuthenticationOptions<OidcProviderOptions>> configure)
         {
-            AddSpaAuthentication<RemoteAuthenticationState, OidcProviderOptions>(services, configure);
+            AddRemoteAuthentication<RemoteAuthenticationState, OidcProviderOptions>(services, configure);
 
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<RemoteAuthenticationOptions<OidcProviderOptions>>, DefaultOidcOptionsConfiguration>());
 
@@ -96,7 +96,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var inferredClientId = Assembly.GetCallingAssembly().GetName().Name;
 
-            services.AddSpaAuthentication<RemoteAuthenticationState, ApiAuthorizationProviderOptions>();
+            services.AddRemoteAuthentication<RemoteAuthenticationState, ApiAuthorizationProviderOptions>();
 
             services.TryAddEnumerable(
                 ServiceDescriptor.Singleton<IPostConfigureOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>>, DefaultApiAuthorizationOptionsConfiguration>(_ =>

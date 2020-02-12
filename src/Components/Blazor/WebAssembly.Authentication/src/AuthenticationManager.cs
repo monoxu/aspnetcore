@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
@@ -28,49 +27,49 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         [Parameter] public TAuthenticationState AuthenticationState { get; set; }
 
         /// <summary>
-        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.Login"/> is being handled.
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogIn"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment LoginFragment { get; set; } = DefaultLoginFragment;
+        [Parameter] public RenderFragment LogingIn { get; set; } = DefaultLogInFragment;
 
         /// <summary>
         /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.Register"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment RegisterFragment { get; set; }
+        [Parameter] public RenderFragment Registering { get; set; }
 
         /// <summary>
         /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.Profile"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment ProfileFragment { get; set; }
+        [Parameter] public RenderFragment UserProfile { get; set; }
 
         /// <summary>
-        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LoginCallback"/> is being handled.
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogInCallback"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment LoginCallbackFragment { get; set; } = DefaultLoginCallbackFragment;
+        [Parameter] public RenderFragment CompletingLogingIn { get; set; } = DefaultLogInCallbackFragment;
 
         /// <summary>
-        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LoginFailed"/> is being handled.
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogInFailed"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment<string> LoginFailedFragment { get; set; } = DefaultLoginFailedFragment;
+        [Parameter] public RenderFragment<string> LogInFailed { get; set; } = DefaultLogInFailedFragment;
 
         /// <summary>
-        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.Logout"/> is being handled.
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogOut"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment LogoutFragment { get; set; } = DefaultLogoutFragment;
+        [Parameter] public RenderFragment LogOut { get; set; } = DefaultLogOutFragment;
 
         /// <summary>
-        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogoutCallback"/> is being handled.
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogOutCallback"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment LogoutCallbackFragment { get; set; } = DefaultLogoutCallbackFragment;
+        [Parameter] public RenderFragment CompletingLogOut { get; set; } = DefaultLogOutCallbackFragment;
 
         /// <summary>
-        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogoutFailed"/> is being handled.
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogOutFailed"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment<string> LogoutFailedFragment { get; set; } = DefaultLogoutFailedFragment;
+        [Parameter] public RenderFragment<string> LogOutFailed { get; set; } = DefaultLogOutFailedFragment;
 
         /// <summary>
-        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogoutSucceeded"/> is being handled.
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogOutSucceeded"/> is being handled.
         /// </summary>
-        [Parameter] public RenderFragment LoggedOutFragment { get; set; } = DefaultLoggedOutFragment;
+        [Parameter] public RenderFragment LogOutSucceded { get; set; } = DefaultLoggedOutFragment;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSRuntime"/> to use for performin JavaScript interop.
@@ -99,31 +98,31 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             switch (Action)
             {
                 case RemoteAuthenticationActions.Profile:
-                    builder.AddContent(0, ProfileFragment);
+                    builder.AddContent(0, UserProfile);
                     break;
                 case RemoteAuthenticationActions.Register:
-                    builder.AddContent(0, RegisterFragment);
+                    builder.AddContent(0, Registering);
                     break;
-                case RemoteAuthenticationActions.Login:
-                    builder.AddContent(0, LoginFragment);
+                case RemoteAuthenticationActions.LogIn:
+                    builder.AddContent(0, LogingIn);
                     break;
-                case RemoteAuthenticationActions.LoginCallback:
-                    builder.AddContent(0, LoginCallbackFragment);
+                case RemoteAuthenticationActions.LogInCallback:
+                    builder.AddContent(0, CompletingLogingIn);
                     break;
-                case RemoteAuthenticationActions.LoginFailed:
-                    builder.AddContent(0, LoginFailedFragment(_message));
+                case RemoteAuthenticationActions.LogInFailed:
+                    builder.AddContent(0, LogInFailed(_message));
                     break;
-                case RemoteAuthenticationActions.Logout:
-                    builder.AddContent(0, LogoutFragment);
+                case RemoteAuthenticationActions.LogOut:
+                    builder.AddContent(0, LogOut);
                     break;
-                case RemoteAuthenticationActions.LogoutCallback:
-                    builder.AddContent(0, LogoutCallbackFragment);
+                case RemoteAuthenticationActions.LogOutCallback:
+                    builder.AddContent(0, CompletingLogOut);
                     break;
-                case RemoteAuthenticationActions.LogoutFailed:
-                    builder.AddContent(0, LogoutFailedFragment(_message));
+                case RemoteAuthenticationActions.LogOutFailed:
+                    builder.AddContent(0, LogOutFailed(_message));
                     break;
-                case RemoteAuthenticationActions.LogoutSucceeded:
-                    builder.AddContent(0, LoggedOutFragment);
+                case RemoteAuthenticationActions.LogOutSucceeded:
+                    builder.AddContent(0, LogOutSucceded);
                     break;
                 default:
                     throw new InvalidOperationException($"Invalid action '{Action}'.");
@@ -135,55 +134,55 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             switch (Action)
             {
-                case RemoteAuthenticationActions.Login:
-                    await ProcessLogin(GetReturnUrl(state: null));
+                case RemoteAuthenticationActions.LogIn:
+                    await ProcessLogIn(GetReturnUrl(state: null));
                     break;
-                case RemoteAuthenticationActions.LoginCallback:
-                    await ProcessLoginCallback();
+                case RemoteAuthenticationActions.LogInCallback:
+                    await ProcessLogInCallback();
                     break;
-                case RemoteAuthenticationActions.LoginFailed:
+                case RemoteAuthenticationActions.LogInFailed:
                     _message = GetErrorMessage();
                     break;
                 case RemoteAuthenticationActions.Profile:
                     if (ApplicationPaths.RemoteProfilePath == null)
                     {
-                        ProfileFragment ??= ProfileNotSupportedFragment;
+                        UserProfile ??= ProfileNotSupportedFragment;
                     }
                     else
                     {
-                        ProfileFragment ??= LoginFragment;
+                        UserProfile ??= LogingIn;
                         await RedirectToProfile();
                     }
                     break;
                 case RemoteAuthenticationActions.Register:
                     if (ApplicationPaths.RemoteRegisterPath == null)
                     {
-                        RegisterFragment ??= RegisterNotSupportedFragment;
+                        Registering ??= RegisterNotSupportedFragment;
                     }
                     else
                     {
-                        RegisterFragment ??= LoginFragment;
+                        Registering ??= LogingIn;
                     }
 
                     await RedirectToRegister();
                     break;
-                case RemoteAuthenticationActions.Logout:
-                    await ProcessLogout(GetReturnUrl(state: null, Navigation.ToAbsoluteUri(ApplicationPaths.LogoutSucceededPath).AbsoluteUri));
+                case RemoteAuthenticationActions.LogOut:
+                    await ProcessLogOut(GetReturnUrl(state: null, Navigation.ToAbsoluteUri(ApplicationPaths.LogOutSucceededPath).AbsoluteUri));
                     break;
-                case RemoteAuthenticationActions.LogoutCallback:
-                    await ProcessLogoutCallback();
+                case RemoteAuthenticationActions.LogOutCallback:
+                    await ProcessLogOutCallback();
                     break;
-                case RemoteAuthenticationActions.LogoutFailed:
+                case RemoteAuthenticationActions.LogOutFailed:
                     _message = GetErrorMessage();
                     break;
-                case RemoteAuthenticationActions.LogoutSucceeded:
+                case RemoteAuthenticationActions.LogOutSucceeded:
                     break;
                 default:
                     throw new InvalidOperationException($"Invalid action '{Action}'.");
             }
         }
 
-        private async Task ProcessLogin(string returnUrl)
+        private async Task ProcessLogIn(string returnUrl)
         {
             AuthenticationState.ReturnUrl = returnUrl;
             var result = await AuthenticationService.SignInAsync(new RemoteAuthenticationContext<TAuthenticationState>
@@ -198,7 +197,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                     Navigation.NavigateTo(returnUrl);
                     break;
                 case RemoteAuthenticationStatus.Failure:
-                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LoginFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
+                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogInFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                     Navigation.NavigateTo(uri);
                     break;
                 case RemoteAuthenticationStatus.OperationCompleted:
@@ -207,7 +206,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             }
         }
 
-        private async Task ProcessLoginCallback()
+        private async Task ProcessLogInCallback()
         {
             var url = Navigation.Uri;
             var result = await AuthenticationService.CompleteSignInAsync(new RemoteAuthenticationContext<TAuthenticationState> { Url = url });
@@ -223,7 +222,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 case RemoteAuthenticationStatus.OperationCompleted:
                     break;
                 case RemoteAuthenticationStatus.Failure:
-                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LoginFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
+                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogInFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                     Navigation.NavigateTo(uri);
                     break;
                 default:
@@ -231,7 +230,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             }
         }
 
-        private async Task ProcessLogout(string returnUrl)
+        private async Task ProcessLogOut(string returnUrl)
         {
             AuthenticationState.ReturnUrl = returnUrl;
             var user = await AuthenticationService.GetCurrentUser();
@@ -250,7 +249,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                     case RemoteAuthenticationStatus.OperationCompleted:
                         break;
                     case RemoteAuthenticationStatus.Failure:
-                        var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogoutFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
+                        var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogOutFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                         Navigation.NavigateTo(uri);
                         break;
                     default:
@@ -259,7 +258,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             }
         }
 
-        private async Task ProcessLogoutCallback()
+        private async Task ProcessLogOutCallback()
         {
             var result = await AuthenticationService.CompleteSignOutAsync(new RemoteAuthenticationContext<TAuthenticationState> { Url = Navigation.Uri });
             switch (result.Status)
@@ -269,12 +268,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                     // is when we are doing a redirect sign in flow.
                     throw new InvalidOperationException("Should not redirect.");
                 case RemoteAuthenticationStatus.Success:
-                    await NavigateToReturnUrl(GetReturnUrl(result.State, Navigation.ToAbsoluteUri(ApplicationPaths.LogoutSucceededPath).ToString()));
+                    await NavigateToReturnUrl(GetReturnUrl(result.State, Navigation.ToAbsoluteUri(ApplicationPaths.LogOutSucceededPath).ToString()));
                     break;
                 case RemoteAuthenticationStatus.OperationCompleted:
                     break;
                 case RemoteAuthenticationStatus.Failure:
-                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogoutFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
+                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogOutFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                     Navigation.NavigateTo(uri);
                     break;
                 default:
@@ -371,7 +370,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private ValueTask RedirectToRegister()
         {
-            var loginUrl = Navigation.ToAbsoluteUri(ApplicationPaths.LoginPath).PathAndQuery;
+            var loginUrl = Navigation.ToAbsoluteUri(ApplicationPaths.LogInPath).PathAndQuery;
             var registerUrl = Navigation.ToAbsoluteUri($"{ApplicationPaths.RemoteRegisterPath}?returnUrl={Uri.EscapeDataString(loginUrl)}").PathAndQuery;
 
             return JS.InvokeVoidAsync("location.replace", registerUrl);
@@ -381,7 +380,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private string GetErrorMessage() => GetParameter("message");
 
-        private static void DefaultLoginFragment(RenderTreeBuilder builder)
+        private static void DefaultLogInFragment(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "p");
             builder.AddContent(1, "Checking login state...");
@@ -402,14 +401,14 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             builder.CloseElement();
         }
 
-        private static void DefaultLoginCallbackFragment(RenderTreeBuilder builder)
+        private static void DefaultLogInCallbackFragment(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "p");
             builder.AddContent(1, "Completing login...");
             builder.CloseElement();
         }
 
-        private static RenderFragment DefaultLoginFailedFragment(string message)
+        private static RenderFragment DefaultLogInFailedFragment(string message)
         {
             return builder =>
             {
@@ -421,21 +420,21 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             };
         }
 
-        private static void DefaultLogoutFragment(RenderTreeBuilder builder)
+        private static void DefaultLogOutFragment(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "p");
             builder.AddContent(1, "Processing logout...");
             builder.CloseElement();
         }
 
-        private static void DefaultLogoutCallbackFragment(RenderTreeBuilder builder)
+        private static void DefaultLogOutCallbackFragment(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "p");
             builder.AddContent(1, "Processing logout callback...");
             builder.CloseElement();
         }
 
-        private static RenderFragment DefaultLogoutFailedFragment(string message)
+        private static RenderFragment DefaultLogOutFailedFragment(string message)
         {
             return builder =>
             {

@@ -33,36 +33,36 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// <summary>
         /// Gets or sets the path to the login page.
         /// </summary>
-        public string LoginPath { get; set; } = RemoteAuthenticationDefaults.LoginPath;
+        public string LogInPath { get; set; } = RemoteAuthenticationDefaults.LoginPath;
 
         /// <summary>
         /// Gets or sets the path to the login callback page.
         /// </summary>
-        public string LoginCallbackPath { get; set; } = RemoteAuthenticationDefaults.LoginCallbackPath;
+        public string LogInCallbackPath { get; set; } = RemoteAuthenticationDefaults.LoginCallbackPath;
 
         /// <summary>
         /// Gets or sets the path to the login failed page.
         /// </summary>
-        public string LoginFailedPath { get; set; } = RemoteAuthenticationDefaults.LoginFailedPath;
+        public string LogInFailedPath { get; set; } = RemoteAuthenticationDefaults.LoginFailedPath;
 
         /// <summary>
         /// Gets or sets the path to the logout page.
         /// </summary>
-        public string LogoutPath { get; set; } = RemoteAuthenticationDefaults.LogoutPath;
+        public string LogOutPath { get; set; } = RemoteAuthenticationDefaults.LogoutPath;
 
         /// <summary>
         /// Gets or sets the path to the logout callback page.
         /// </summary>
-        public string LogoutCallbackPath { get; set; } = RemoteAuthenticationDefaults.LogoutCallbackPath;
+        public string LogOutCallbackPath { get; set; } = RemoteAuthenticationDefaults.LogoutCallbackPath;
 
         /// <summary>
         /// Gets or sets the path to the logout failed page.
         /// </summary>
-        public string LogoutFailedPath { get; set; } = RemoteAuthenticationDefaults.LogoutFailedPath;
+        public string LogOutFailedPath { get; set; } = RemoteAuthenticationDefaults.LogoutFailedPath;
 
         /// <summary>
         /// Gets or sets the path to the logout succeded page.
         /// </summary>
-        public string LogoutSucceededPath { get; set; } = RemoteAuthenticationDefaults.LogoutSucceededPath;
+        public string LogOutSucceededPath { get; set; } = RemoteAuthenticationDefaults.LogoutSucceededPath;
     }
 }

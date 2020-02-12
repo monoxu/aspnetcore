@@ -1,6 +1,6 @@
 @page "/fetchdata"
 @using Wasm.Authentication.Shared
-@attribute [Authorize(Roles = "Wasm.Authentication.ServerAPI")]
+@attribute [Authorize]
 @inject IAccessTokenProvider AuthenticationService
 @inject NavigationManager Navigation
 

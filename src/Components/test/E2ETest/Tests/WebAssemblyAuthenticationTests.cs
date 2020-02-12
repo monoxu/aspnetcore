@@ -132,17 +132,14 @@ namespace Microsoft.AspNetCore.Components.E2ETest.Tests
                 .OrderBy(o => o.Item1)
                 .ToArray();
 
-            Assert.Equal(7, claims.Length);
+            Assert.Equal(4, claims.Length);
 
             Assert.Equal(new[]
             {
                 ("amr", "pwd"),
                 ("idp", "local"),
                 ("name", userName),
-                ("preferred_username", userName),
-                ("scope", "openid"),
-                ("scope", "profile"),
-                ("scope", "Wasm.Authentication.ServerAPI"),
+                ("preferred_username", userName)
             },
             claims);
 

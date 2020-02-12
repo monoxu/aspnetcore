@@ -150,18 +150,6 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                         }
                     }
                 }
-
-                if (_options.UserOptions.ScopeClaim != null)
-                {
-                    var result = await GetAccessToken();
-                    if (result.Status == AccessTokenResultStatus.Success)
-                    {
-                        foreach (var scope in result.Token.GrantedScopes)
-                        {
-                            identity.AddClaim(new Claim(_options.UserOptions.ScopeClaim, scope));
-                        }
-                    }
-                }
             }
 
             var principal = new ClaimsPrincipal(identity);

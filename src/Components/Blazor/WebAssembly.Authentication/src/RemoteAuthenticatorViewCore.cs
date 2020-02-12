@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Infrastructure;
 using Microsoft.JSInterop;
 
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication

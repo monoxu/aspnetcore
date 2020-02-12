@@ -57,7 +57,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var user = options.Value.UserOptions;
             Assert.Equal("Microsoft.AspNetCore.Components.WebAssembly.Authentication.Tests", user.AuthenticationType);
             Assert.Equal("scope", user.ScopeClaim);
-            Assert.Equal("scope", user.RoleClaim);
+            Assert.Null(user.RoleClaim);
             Assert.Equal("name", user.NameClaim);
 
             Assert.Equal(

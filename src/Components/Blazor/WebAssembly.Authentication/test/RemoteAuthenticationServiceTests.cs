@@ -353,7 +353,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         }
 
         [Fact]
-        public async Task RemoteAuthenticationService_GetUser_MapsScopesToRoles_IfScopeClaimIsProvided()
+        public async Task RemoteAuthenticationService_GetUser_DoesNotMapScopesToRoles()
         {
             // Arrange
             var testJsRuntime = new TestJsRuntime();
@@ -392,7 +392,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             Assert.True(result.IsInRole("admin"));
             Assert.True(result.IsInRole("cool"));
             Assert.True(result.IsInRole("fantastic"));
-            Assert.Single(result.FindAll("scope"));
+            Assert.Empty(result.FindAll("scope"));
         }
 
         private static IOptions<RemoteAuthenticationOptions<OidcProviderOptions>> CreateOptions(string scopeClaim = null)

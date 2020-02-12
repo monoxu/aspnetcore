@@ -134,14 +134,11 @@ class OidcAuthorizeService implements AuthorizeService {
     async signIn(state: any) {
         try {
             await this._userManager.clearStaleState();
-            const silentUser = await this._userManager.signinSilent(this.createArguments());
+            await this._userManager.signinSilent(this.createArguments());
             return this.success(state);
         } catch (silentError) {
-            await this._userManager.clearStaleState();
-            // User might not be authenticated, fallback to popup authentication
-            console.log("Silent authentication error: ", silentError);
-
             try {
+                await this._userManager.clearStaleState();
                 await this._userManager.signinRedirect(this.createArguments(state));
                 return this.redirect();
             } catch (redirectError) {
@@ -166,7 +163,6 @@ class OidcAuthorizeService implements AuthorizeService {
                 return this.operationCompleted();
             }
 
-            console.log('There was an error signing in: ', error);
             return this.error('There was an error signing in.');
         }
     }
@@ -180,7 +176,6 @@ class OidcAuthorizeService implements AuthorizeService {
             await this._userManager.signoutRedirect(this.createArguments(state));
             return this.redirect();
         } catch (redirectSignOutError) {
-            console.log("Redirect signout error: ", redirectSignOutError);
             return this.error(redirectSignOutError);
         }
     }
@@ -194,8 +189,6 @@ class OidcAuthorizeService implements AuthorizeService {
                 return this.operationCompleted();
             }
         } catch (error) {
-            console.log(`There was an error trying to log out '${error}'.`);
-            console.log(url);
             return this.error(error);
         }
     }

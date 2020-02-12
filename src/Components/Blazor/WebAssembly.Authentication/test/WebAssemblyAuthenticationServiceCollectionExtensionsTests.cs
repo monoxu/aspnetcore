@@ -31,17 +31,6 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             host.Services.GetRequiredService<IRemoteAuthenticationService<RemoteAuthenticationState>>();
         }
 
-        //[Fact]
-        //public void CanCreate_DefaultAuthenticationManager()
-        //{
-        //    var builder = WebAssemblyHostBuilder.CreateDefault();
-        //    builder.Services.AddApiAuthorization();
-        //    var host = builder.Build();
-
-        //    var componentFactory = new ComponentFactory();
-        //    componentFactory.InstantiateComponent(host.Services, typeof(AuthenticationManager<RemoteAuthenticationState>));
-        //}
-
         [Fact]
         public void ApiAuthorizationOptions_ConfigurationDefaultsGetApplied()
         {
@@ -85,27 +74,27 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 options.AuthenticationPaths = new RemoteAuthenticationApplicationPathsOptions
                 {
                     LoginPath = "a",
-                    LoginCallbackPath = "a",
-                    LoginFailedPath = "a",
-                    RegisterPath = "a",
-                    ProfilePath = "a",
-                    RemoteRegisterPath = "a",
-                    RemoteProfilePath = "a",
-                    LogoutPath = "a",
-                    LogoutCallbackPath = "a",
-                    LogoutFailedPath = "a",
-                    LogoutSucceededPath = "a",
+                    LoginCallbackPath = "b",
+                    LoginFailedPath = "c",
+                    RegisterPath = "d",
+                    ProfilePath = "e",
+                    RemoteRegisterPath = "f",
+                    RemoteProfilePath = "g",
+                    LogoutPath = "h",
+                    LogoutCallbackPath = "i",
+                    LogoutFailedPath = "j",
+                    LogoutSucceededPath = "k",
                 };
                 options.UserOptions = new RemoteAuthenticationUserOptions
                 {
-                    AuthenticationType = "a",
-                    ScopeClaim = "a",
-                    RoleClaim = "a",
-                    NameClaim = "a",
+                    AuthenticationType = "l",
+                    ScopeClaim = "m",
+                    RoleClaim = "n",
+                    NameClaim = "o",
                 };
                 options.ProviderOptions = new ApiAuthorizationProviderOptions
                 {
-                    ConfigurationEndpoint = "a"
+                    ConfigurationEndpoint = "p"
                 };
             });
 
@@ -116,24 +105,24 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var paths = options.Value.AuthenticationPaths;
 
             Assert.Equal("a", paths.LoginPath);
-            Assert.Equal("a", paths.LoginCallbackPath);
-            Assert.Equal("a", paths.LoginFailedPath);
-            Assert.Equal("a", paths.RegisterPath);
-            Assert.Equal("a", paths.ProfilePath);
-            Assert.Equal("a", paths.RemoteRegisterPath);
-            Assert.Equal("a", paths.RemoteProfilePath);
-            Assert.Equal("a", paths.LogoutPath);
-            Assert.Equal("a", paths.LogoutCallbackPath);
-            Assert.Equal("a", paths.LogoutFailedPath);
-            Assert.Equal("a", paths.LogoutSucceededPath);
+            Assert.Equal("b", paths.LoginCallbackPath);
+            Assert.Equal("c", paths.LoginFailedPath);
+            Assert.Equal("d", paths.RegisterPath);
+            Assert.Equal("e", paths.ProfilePath);
+            Assert.Equal("f", paths.RemoteRegisterPath);
+            Assert.Equal("g", paths.RemoteProfilePath);
+            Assert.Equal("h", paths.LogoutPath);
+            Assert.Equal("i", paths.LogoutCallbackPath);
+            Assert.Equal("j", paths.LogoutFailedPath);
+            Assert.Equal("k", paths.LogoutSucceededPath);
 
             var user = options.Value.UserOptions;
-            Assert.Equal("a", user.AuthenticationType);
-            Assert.Equal("a", user.ScopeClaim);
-            Assert.Equal("a", user.RoleClaim);
-            Assert.Equal("a", user.NameClaim);
+            Assert.Equal("l", user.AuthenticationType);
+            Assert.Equal("m", user.ScopeClaim);
+            Assert.Equal("n", user.RoleClaim);
+            Assert.Equal("o", user.NameClaim);
 
-            Assert.Equal("a", options.Value.ProviderOptions.ConfigurationEndpoint);
+            Assert.Equal("p", options.Value.ProviderOptions.ConfigurationEndpoint);
         }
 
         [Fact]
@@ -183,28 +172,28 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 options.AuthenticationPaths = new RemoteAuthenticationApplicationPathsOptions
                 {
                     LoginPath = "a",
-                    LoginCallbackPath = "a",
-                    LoginFailedPath = "a",
-                    RegisterPath = "a",
-                    ProfilePath = "a",
-                    RemoteRegisterPath = "a",
-                    RemoteProfilePath = "a",
-                    LogoutPath = "a",
-                    LogoutCallbackPath = "a",
-                    LogoutFailedPath = "a",
-                    LogoutSucceededPath = "a",
+                    LoginCallbackPath = "b",
+                    LoginFailedPath = "c",
+                    RegisterPath = "d",
+                    ProfilePath = "e",
+                    RemoteRegisterPath = "f",
+                    RemoteProfilePath = "g",
+                    LogoutPath = "h",
+                    LogoutCallbackPath = "i",
+                    LogoutFailedPath = "j",
+                    LogoutSucceededPath = "k",
                 };
                 options.UserOptions = new RemoteAuthenticationUserOptions
                 {
-                    AuthenticationType = "a",
-                    ScopeClaim = "a",
-                    RoleClaim = "a",
-                    NameClaim = "a",
+                    AuthenticationType = "l",
+                    ScopeClaim = "m",
+                    RoleClaim = "n",
+                    NameClaim = "o",
                 };
                 options.ProviderOptions = new OidcProviderOptions
                 {
-                    Authority = "a",
-                    ClientId = "a",
+                    Authority = "p",
+                    ClientId = "q",
                     DefaultScopes = Array.Empty<string>(),
                     RedirectUri = "https://www.example.com/base/custom-login",
                     PostLogoutRedirectUri = "https://www.example.com/base/custom-logout",
@@ -218,26 +207,26 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var paths = options.Value.AuthenticationPaths;
 
             Assert.Equal("a", paths.LoginPath);
-            Assert.Equal("a", paths.LoginCallbackPath);
-            Assert.Equal("a", paths.LoginFailedPath);
-            Assert.Equal("a", paths.RegisterPath);
-            Assert.Equal("a", paths.ProfilePath);
-            Assert.Equal("a", paths.RemoteRegisterPath);
-            Assert.Equal("a", paths.RemoteProfilePath);
-            Assert.Equal("a", paths.LogoutPath);
-            Assert.Equal("a", paths.LogoutCallbackPath);
-            Assert.Equal("a", paths.LogoutFailedPath);
-            Assert.Equal("a", paths.LogoutSucceededPath);
+            Assert.Equal("b", paths.LoginCallbackPath);
+            Assert.Equal("c", paths.LoginFailedPath);
+            Assert.Equal("d", paths.RegisterPath);
+            Assert.Equal("e", paths.ProfilePath);
+            Assert.Equal("f", paths.RemoteRegisterPath);
+            Assert.Equal("g", paths.RemoteProfilePath);
+            Assert.Equal("h", paths.LogoutPath);
+            Assert.Equal("i", paths.LogoutCallbackPath);
+            Assert.Equal("j", paths.LogoutFailedPath);
+            Assert.Equal("k", paths.LogoutSucceededPath);
 
             var user = options.Value.UserOptions;
-            Assert.Equal("a", user.AuthenticationType);
-            Assert.Equal("a", user.ScopeClaim);
-            Assert.Equal("a", user.RoleClaim);
-            Assert.Equal("a", user.NameClaim);
+            Assert.Equal("l", user.AuthenticationType);
+            Assert.Equal("m", user.ScopeClaim);
+            Assert.Equal("n", user.RoleClaim);
+            Assert.Equal("o", user.NameClaim);
 
             var provider = options.Value.ProviderOptions;
-            Assert.Equal("a", provider.Authority);
-            Assert.Equal("a", provider.ClientId);
+            Assert.Equal("p", provider.Authority);
+            Assert.Equal("q", provider.ClientId);
             Assert.Equal(Array.Empty<string>(), provider.DefaultScopes);
             Assert.Equal("https://www.example.com/base/custom-login", provider.RedirectUri);
             Assert.Equal("https://www.example.com/base/custom-logout", provider.PostLogoutRedirectUri);

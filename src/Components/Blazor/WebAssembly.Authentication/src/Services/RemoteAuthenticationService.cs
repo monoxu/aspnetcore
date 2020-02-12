@@ -52,7 +52,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         }
 
         /// <inheritdoc />
-        public override async Task<AuthenticationState> GetAuthenticationStateAsync() => new AuthenticationState(await GetCurrentUser());
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync() => new AuthenticationState(await GetUser(useCache: true));
 
         /// <inheritdoc />
         public virtual async Task<RemoteAuthenticationResult<TRemoteAuthenticationState>> SignInAsync(
@@ -62,7 +62,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var result = await _jsRuntime.InvokeAsync<RemoteAuthenticationResult<TRemoteAuthenticationState>>("AuthenticationService.signIn", context.State);
             if (result.Status == RemoteAuthenticationStatus.Success)
             {
-                UpdateUser(GetCurrentUser());
+                UpdateUser(GetUser());
             }
 
             return result;
@@ -76,7 +76,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var result = await _jsRuntime.InvokeAsync<RemoteAuthenticationResult<TRemoteAuthenticationState>>("AuthenticationService.completeSignIn", context.Url);
             if (result.Status == RemoteAuthenticationStatus.Success)
             {
-                UpdateUser(GetCurrentUser());
+                UpdateUser(GetUser());
             }
 
             return result;
@@ -90,7 +90,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var result = await _jsRuntime.InvokeAsync<RemoteAuthenticationResult<TRemoteAuthenticationState>>("AuthenticationService.signOut", context.State);
             if (result.Status == RemoteAuthenticationStatus.Success)
             {
-                UpdateUser(GetCurrentUser());
+                UpdateUser(GetUser());
             }
 
             return result;
@@ -104,7 +104,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var result = await _jsRuntime.InvokeAsync<RemoteAuthenticationResult<TRemoteAuthenticationState>>("AuthenticationService.completeSignOut", context.Url);
             if (result.Status == RemoteAuthenticationStatus.Success)
             {
-                UpdateUser(GetCurrentUser());
+                UpdateUser(GetUser());
             }
 
             return result;
@@ -124,15 +124,26 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             return await _jsRuntime.InvokeAsync<AccessTokenResult>("AuthenticationService.getAccessToken", options);
         }
 
-        /// <inheritdoc />
-        protected virtual async ValueTask<ClaimsPrincipal> GetCurrentUser()
+        private async ValueTask<ClaimsPrincipal> GetUser(bool useCache = false)
         {
             var now = DateTimeOffset.Now;
-            if (now < _userLastCheck.AddSeconds(_userCacheRefreshInterval))
+            if (useCache && now < _userLastCheck.AddSeconds(_userCacheRefreshInterval))
             {
                 return _cachedUser;
             }
 
+            _cachedUser = await GetAuthenticatedUser();
+            _userLastCheck = now;
+
+            return _cachedUser;
+        }
+
+        /// <summary>
+        /// Gets the current authenticated used using JavaScript interop.
+        /// </summary>
+        /// <returns>A <see cref="Task{ClaimsPrincipal}"/>that will return the current authenticated user when completes.</returns>
+        protected internal virtual async Task<ClaimsPrincipal> GetAuthenticatedUser()
+        {
             await EnsureAuthService();
             var user = await _jsRuntime.InvokeAsync<IDictionary<string, object>>("AuthenticationService.getUser");
 
@@ -164,10 +175,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 }
             }
 
-            _cachedUser = new ClaimsPrincipal(identity);
-            _userLastCheck = now;
-
-            return _cachedUser;
+            return new ClaimsPrincipal(identity);
         }
 
         private async ValueTask EnsureAuthService()

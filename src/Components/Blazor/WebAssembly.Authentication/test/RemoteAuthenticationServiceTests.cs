@@ -308,7 +308,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             testJsRuntime.GetUserResult = null;
 
             // Act
-            var result = await runtime.GetCurrentUser();
+            var result = await runtime.GetAuthenticatedUser();
 
             // Assert
             Assert.Empty(result.Claims);
@@ -340,7 +340,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             testJsRuntime.GetUserResult = JsonSerializer.Deserialize<IDictionary<string, object>>(serializedUser);
 
             // Act
-            var result = await runtime.GetCurrentUser();
+            var result = await runtime.GetAuthenticatedUser();
 
             // Assert
             Assert.Single(result.Identities);
@@ -382,7 +382,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             };
 
             // Act
-            var result = await runtime.GetCurrentUser();
+            var result = await runtime.GetAuthenticatedUser();
 
             // Assert
             Assert.Single(result.Identities);

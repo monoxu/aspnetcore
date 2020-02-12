@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Contains extension methods to add authentication to Blazor webassembly applications.
+    /// Contains extension methods to add authentication to Blazor WebAssembly applications.
     /// </summary>
     public static class WebAssemblyAuthenticationServiceCollectionExtensions
     {

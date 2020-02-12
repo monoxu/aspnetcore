@@ -4,7 +4,7 @@
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
     /// <summary>
-    /// Represents the options to configure for applications relying on a server for configuration.
+    /// Represents options for applications relying on a server for configuration.
     /// </summary>
     public class ApiAuthorizationProviderOptions
     {

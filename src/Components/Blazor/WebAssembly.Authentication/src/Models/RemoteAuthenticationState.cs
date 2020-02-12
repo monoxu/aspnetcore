@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
     public class RemoteAuthenticationState
     {
         /// <summary>
-        /// Gets or sets the return url to redirect the application to after a successful authentication operation.
+        /// Gets or sets the URL to which the application should redirect after a successful authentication operation.
         /// It must be a url within the page.
         /// </summary>
         public string ReturnUrl { get; set; }

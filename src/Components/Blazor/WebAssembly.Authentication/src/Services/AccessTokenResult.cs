@@ -14,12 +14,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public string Status { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="AccessToken"/> if <see cref="Status"/> was <see cref="AccessTokenResultStatus.Success"/>.
+        /// Gets or sets the <see cref="AccessToken"/> if <see cref="Status"/> is <see cref="AccessTokenResultStatus.Success"/>.
         /// </summary>
         public AccessToken Token { get; set; }
 
         /// <summary>
-        /// Gets or sets the redirect url to navigate to if <see cref="Status"/> was <see cref="AccessTokenResultStatus.RequiresRedirect"/>.
+        /// Gets or sets the URL to redirect to if <see cref="Status"/> is <see cref="AccessTokenResultStatus.RequiresRedirect"/>.
         /// </summary>
         public string RedirectUrl { get; set; }
     }

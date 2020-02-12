@@ -18,7 +18,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             options.AuthenticationPaths.RemoteProfilePath ??= "Identity/Account/Manage";
             options.UserOptions.ScopeClaim ??= "scope";
             options.UserOptions.RoleClaim ??= "scope";
-            options.UserOptions.AuthenticationType??= _applicationName;
+            options.UserOptions.AuthenticationType ??= _applicationName;
         }
 
         public void PostConfigure(string name, RemoteAuthenticationOptions<ApiAuthorizationProviderOptions> options)

@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         [Parameter] public string Action { get; set; }
 
         /// <summary>
-        /// Gets or sets the <typeparamref name="TAuthenticationState"/> to be preserved during the authentication operation.
+        /// Gets or sets the <typeparamref name="TAuthenticationState"/> instance to be preserved during the authentication operation.
         /// </summary>
         [Parameter] public TAuthenticationState AuthenticationState { get; set; }
 
@@ -439,7 +439,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         private static void DefaultLoggedOutFragment(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "p");
-            builder.AddContent(1, "You successfully logged out!");
+            builder.AddContent(1, "You are logged out.");
             builder.CloseElement();
         }
     }

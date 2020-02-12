@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
     /// <summary>
-    /// Represents a contract for services that perform authentication operations for a Blazor webassembly application.
+    /// Represents a contract for services that perform authentication operations for a Blazor WebAssembly application.
     /// </summary>
     /// <typeparam name="TRemoteAuthenticationState">The state to be persisted across authentication operations.</typeparam>
     public interface IRemoteAuthenticationService<TRemoteAuthenticationState> : IAccessTokenProvider

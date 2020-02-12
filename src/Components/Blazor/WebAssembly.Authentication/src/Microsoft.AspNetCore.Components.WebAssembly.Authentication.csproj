@@ -11,11 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Mono.WebAssembly.Interop" />
-    <Reference Include="Microsoft.AspNetCore.Blazor" />
-    <Reference Include="Microsoft.AspNetCore.Components.Web" />
     <Reference Include="Microsoft.AspNetCore.Components.Authorization" />
-    <Reference Include="Microsoft.Extensions.Configuration" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,11 +45,7 @@
       <Output TaskParameter="HashResult" PropertyName="_YarnInputsHash" />
     </Hash>
 
-     <WriteLinesToFile
-      Lines="$(_YarnInputsHash)"
-      File="$(InteropCompilationCacheFile)"
-      Overwrite="True"
-      WriteOnlyWhenDifferent="True" />
+     <WriteLinesToFile Lines="$(_YarnInputsHash)" File="$(InteropCompilationCacheFile)" Overwrite="True" WriteOnlyWhenDifferent="True" />
 
     <ItemGroup>
       <FileWrites Include="$(InteropCompilationCacheFile)" />

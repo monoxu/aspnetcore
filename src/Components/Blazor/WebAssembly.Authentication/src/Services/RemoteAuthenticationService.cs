@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Json;
@@ -20,7 +21,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
          where TRemoteAuthenticationState : RemoteAuthenticationState
          where TProviderOptions : new()
     {
+        private const int _userCacheRefreshInterval = 60;
         private bool _initialized = false;
+
+        // This defaults to 1/1/1970
+        private DateTimeOffset _userLastCheck = DateTimeOffset.FromUnixTimeSeconds(0);
+        private ClaimsPrincipal _cachedUser = new ClaimsPrincipal(new ClaimsIdentity());
 
         /// <summary>
         /// The <see cref="IJSRuntime"/> to use for performing JavaScript interop operations.
@@ -119,8 +125,14 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         }
 
         /// <inheritdoc />
-        public virtual async Task<ClaimsPrincipal> GetCurrentUser()
+        protected virtual async ValueTask<ClaimsPrincipal> GetCurrentUser()
         {
+            var now = DateTimeOffset.Now;
+            if (now < _userLastCheck.AddSeconds(_userCacheRefreshInterval))
+            {
+                return _cachedUser;
+            }
+
             await EnsureAuthService();
             var user = await _jsRuntime.InvokeAsync<IDictionary<string, object>>("AuthenticationService.getUser");
 
@@ -152,9 +164,10 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 }
             }
 
-            var principal = new ClaimsPrincipal(identity);
+            _cachedUser = new ClaimsPrincipal(identity);
+            _userLastCheck = now;
 
-            return principal;
+            return _cachedUser;
         }
 
         private async ValueTask EnsureAuthService()
@@ -166,11 +179,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             }
         }
 
-        private void UpdateUser(Task<ClaimsPrincipal> task)
+        private void UpdateUser(ValueTask<ClaimsPrincipal> task)
         {
             NotifyAuthenticationStateChanged(UpdateAuthenticationState(task));
 
-            static async Task<AuthenticationState> UpdateAuthenticationState(Task<ClaimsPrincipal> futureUser) => new AuthenticationState(await futureUser);
+            static async Task<AuthenticationState> UpdateAuthenticationState(ValueTask<ClaimsPrincipal> futureUser) => new AuthenticationState(await futureUser);
         }
     }
 }

@@ -493,8 +493,16 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             { new UIValidator {
                 Action = "profile", SetupAction = (validator, manager) => { manager.LoginFragment = validator.Render; } }
             },
+            // Profile fragment overrides
+            { new UIValidator {
+                Action = "profile", SetupAction = (validator, manager) => { manager.ProfileFragment = validator.Render; } }
+            },
             { new UIValidator {
                 Action = "register", SetupAction = (validator, manager) => { manager.LoginFragment = validator.Render; } }
+            },
+            // Register fragment overrides
+            { new UIValidator {
+                Action = "register", SetupAction = (validator, manager) => { manager.RegisterFragment = validator.Render; } }
             },
             { new UIValidator {
                 Action = "logout", SetupAction = (validator, manager) => { manager.LogoutFragment = validator.Render; } }
@@ -598,7 +606,23 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         public class TestAuthenticationManager : AuthenticationManager<RemoteAuthenticationState>
         {
-            protected override Task OnParametersSetAsync() => Task.CompletedTask;
+            public TestAuthenticationManager()
+            {
+                ApplicationPaths = new RemoteAuthenticationApplicationPathsOptions() {
+                    RemoteProfilePath = "Identity/Account/Manage",
+                    RemoteRegisterPath = "Identity/Account/Register",
+                };
+            }
+
+            protected override Task OnParametersSetAsync()
+            {
+                if (Action == "register" || Action == "profile")
+                {
+                    return base.OnParametersSetAsync();
+                }
+
+                return Task.CompletedTask;
+            }
         }
 
         private class TestRenderer : Renderer

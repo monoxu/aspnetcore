@@ -98,7 +98,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             switch (Action)
             {
                 case RemoteAuthenticationActions.Profile:
+                    builder.AddContent(0, ProfileFragment);
+                    break;
                 case RemoteAuthenticationActions.Register:
+                    builder.AddContent(0, RegisterFragment);
+                    break;
                 case RemoteAuthenticationActions.Login:
                     builder.AddContent(0, LoginFragment);
                     break;
@@ -142,11 +146,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 case RemoteAuthenticationActions.Profile:
                     if (ApplicationPaths.RemoteProfilePath == null)
                     {
-                        ProfileFragment??= ProfileNotSupportedFragment;
+                        ProfileFragment ??= ProfileNotSupportedFragment;
                     }
                     else
                     {
-                        ProfileFragment??= LoginFragment;
+                        ProfileFragment ??= LoginFragment;
                         await RedirectToProfile();
                     }
                     break;

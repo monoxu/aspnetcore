@@ -12,10 +12,12 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// The application is going to be redirected.
         /// </summary>
         public const string Redirect = "redirect";
+
         /// <summary>
         /// The authentication operation completed successfully.
         /// </summary>
         public const string Success = "success";
+
         /// <summary>
         /// There was an error performing the authentication operation.
         /// </summary>

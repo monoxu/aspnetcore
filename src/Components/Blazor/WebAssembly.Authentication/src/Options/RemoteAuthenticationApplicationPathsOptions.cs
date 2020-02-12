@@ -51,17 +51,17 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public string LogoutPath { get; set; } = RemoteAuthenticationDefaults.LogoutPath;
 
         /// <summary>
-        /// Gets or sets the path to the logout page.
+        /// Gets or sets the path to the logout callback page.
         /// </summary>
         public string LogoutCallbackPath { get; set; } = RemoteAuthenticationDefaults.LogoutCallbackPath;
 
         /// <summary>
-        /// Gets or sets the path to the logout page.
+        /// Gets or sets the path to the logout failed page.
         /// </summary>
         public string LogoutFailedPath { get; set; } = RemoteAuthenticationDefaults.LogoutFailedPath;
 
         /// <summary>
-        /// Gets or sets the path to the logout page.
+        /// Gets or sets the path to the logout succeded page.
         /// </summary>
         public string LogoutSucceededPath { get; set; } = RemoteAuthenticationDefaults.LogoutSucceededPath;
     }

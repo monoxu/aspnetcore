@@ -27,18 +27,18 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// </summary>
         public IList<string> DefaultScopes { get; set; } = new List<string> { "openid", "profile" };
 
-        [JsonPropertyName("redirect_uri")]
         /// <summary>
         /// Gets or sets the redirect uri for the application. The application will be redirected here after the user has completed the sign in
         /// process from the identity provider.
         /// </summary>
+        [JsonPropertyName("redirect_uri")]
         public string RedirectUri { get; set; }
 
-        [JsonPropertyName("post_logout_redirect_uri")]
         /// <summary>
         /// Gets or sets the post logout redirect uri for the application. The application will be redirected here after the user has completed the sign out
         /// process from the identity provider.
         /// </summary>
+        [JsonPropertyName("post_logout_redirect_uri")]
         public string PostLogoutRedirectUri { get; set; }
     }
 }

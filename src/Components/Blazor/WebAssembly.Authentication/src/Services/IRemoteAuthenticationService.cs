@@ -45,10 +45,5 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// <returns>The result of the authentication operation.</returns>
         Task<RemoteAuthenticationResult<TRemoteAuthenticationState>> CompleteSignOutAsync(
             RemoteAuthenticationContext<TRemoteAuthenticationState> context);
-
-        /// <summary>
-        /// Gets the currently authenticated user.
-        /// </summary>
-        Task<ClaimsPrincipal> GetCurrentUser();
     }
 }

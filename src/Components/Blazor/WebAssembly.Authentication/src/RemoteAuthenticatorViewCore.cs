@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Infrastructure;
 using Microsoft.JSInterop;
@@ -88,7 +89,15 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// </summary>
         [Inject] public IRemoteAuthenticationService<TAuthenticationState> AuthenticationService { get; set; }
 
+        /// <summary>
+        /// Gets or sets a default <see cref="IRemoteAuthenticationPathsProvider"/> to use as fallback if an <see cref="ApplicationPaths"/> has not been explicitly specified.
+        /// </summary>
         [Inject] public IRemoteAuthenticationPathsProvider RemoteApplicationPathsProvider { get; set; }
+
+        /// <summary>
+        /// Gets or sets a default <see cref="AuthenticationStateProvider"/> with the current user.
+        /// </summary>
+        [Inject] public AuthenticationStateProvider AuthenticationProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="RemoteAuthenticationApplicationPathsOptions"/> with the paths to different authentication pages.
@@ -241,8 +250,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         private async Task ProcessLogOut(string returnUrl)
         {
             AuthenticationState.ReturnUrl = returnUrl;
-            var user = await AuthenticationService.GetCurrentUser();
-            var isauthenticated = user.Identity.IsAuthenticated;
+            var state = await AuthenticationProvider.GetAuthenticationStateAsync();
+            var isauthenticated = state.User.Identity.IsAuthenticated;
 
             if (isauthenticated)
             {

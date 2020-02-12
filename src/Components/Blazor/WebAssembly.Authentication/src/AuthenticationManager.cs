@@ -202,8 +202,9 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                     var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LoginFailedPath}?message={_urlEncoder.Encode(result.ErrorMessage)}").ToString();
                     Navigation.NavigateTo(uri);
                     break;
+                case RemoteAuthenticationStatus.OperationCompleted:
                 default:
-                    break;
+                    throw new InvalidOperationException($"Invalid authentication result status '{result.Status}'.");
             }
         }
 
@@ -257,10 +258,6 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                         throw new InvalidOperationException($"Invalid authentication result status '{result.Status ?? "(null)"}'.");
                 }
             }
-            else
-            {
-                await NavigateToReturnUrl(returnUrl);
-            }
         }
 
         private async Task ProcessLogoutCallback()
@@ -288,6 +285,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private string GetReturnUrl(TAuthenticationState state, string defaultReturnUrl = null)
         {
+            if (state.ReturnUrl != null)
+            {
+                return state.ReturnUrl;
+            }
+
             var fromQuery = GetParameter("returnUrl");
             if (!string.IsNullOrWhiteSpace(fromQuery) && !fromQuery.StartsWith(Navigation.BaseUri))
             {
@@ -295,7 +297,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 throw new InvalidOperationException("Invalid return url. The return url needs to have the same origin as the current page.");
             }
 
-            return state?.ReturnUrl ?? fromQuery ?? defaultReturnUrl ?? Navigation.BaseUri;
+            return fromQuery ?? defaultReturnUrl ?? Navigation.BaseUri;
         }
 
         private string GetParameter(string key)

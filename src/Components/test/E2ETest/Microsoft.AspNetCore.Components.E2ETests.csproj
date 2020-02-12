@@ -54,7 +54,7 @@
     </MSBuild>
     <ItemGroup>
       <ContentWithTargetPath Include="@(_SWAManifest)">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>CopyAlways</CopyToOutputDirectory>
         <TargetPath>Wasm.Authentication.Server.StaticWebAssets.xml</TargetPath>
       </ContentWithTargetPath>
     </ItemGroup>

@@ -16,7 +16,6 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
     public class AuthenticationManager<TAuthenticationState> : ComponentBase where TAuthenticationState : RemoteAuthenticationState
     {
         private string _message;
-        private static readonly UrlEncoder _urlEncoder = UrlEncoder.Default;
 
         /// <summary>
         /// Gets or sets the <see cref="RemoteAuthenticationActions"/> action the component needs to handle.
@@ -199,7 +198,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                     Navigation.NavigateTo(returnUrl);
                     break;
                 case RemoteAuthenticationStatus.Failure:
-                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LoginFailedPath}?message={_urlEncoder.Encode(result.ErrorMessage)}").ToString();
+                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LoginFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                     Navigation.NavigateTo(uri);
                     break;
                 case RemoteAuthenticationStatus.OperationCompleted:
@@ -224,7 +223,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 case RemoteAuthenticationStatus.OperationCompleted:
                     break;
                 case RemoteAuthenticationStatus.Failure:
-                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LoginFailedPath}?message={_urlEncoder.Encode(result.ErrorMessage)}").ToString();
+                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LoginFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                     Navigation.NavigateTo(uri);
                     break;
                 default:
@@ -251,7 +250,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                     case RemoteAuthenticationStatus.OperationCompleted:
                         break;
                     case RemoteAuthenticationStatus.Failure:
-                        var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogoutFailedPath}?message={_urlEncoder.Encode(result.ErrorMessage)}").ToString();
+                        var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogoutFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                         Navigation.NavigateTo(uri);
                         break;
                     default:
@@ -275,7 +274,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 case RemoteAuthenticationStatus.OperationCompleted:
                     break;
                 case RemoteAuthenticationStatus.Failure:
-                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogoutFailedPath}?message={_urlEncoder.Encode(result.ErrorMessage)}").ToString();
+                    var uri = Navigation.ToAbsoluteUri($"{ApplicationPaths.LogoutFailedPath}?message={Uri.EscapeDataString(result.ErrorMessage)}").ToString();
                     Navigation.NavigateTo(uri);
                     break;
                 default:
@@ -373,7 +372,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         private ValueTask RedirectToRegister()
         {
             var loginUrl = Navigation.ToAbsoluteUri(ApplicationPaths.LoginPath).PathAndQuery;
-            var registerUrl = Navigation.ToAbsoluteUri($"{ApplicationPaths.RemoteRegisterPath}?returnUrl={_urlEncoder.Encode(loginUrl)}").PathAndQuery;
+            var registerUrl = Navigation.ToAbsoluteUri($"{ApplicationPaths.RemoteRegisterPath}?returnUrl={Uri.EscapeDataString(loginUrl)}").PathAndQuery;
 
             return JS.InvokeVoidAsync("location.replace", registerUrl);
         }

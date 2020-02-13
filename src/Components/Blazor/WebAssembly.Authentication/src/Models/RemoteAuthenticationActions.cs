@@ -4,22 +4,22 @@
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
     /// <summary>
-    /// Represents the list of authentication actions that can be performed by the <see cref="RemoteAuthenticatorViewCore{TAuthenticationState}"/>.
+    /// Represents the list of authentication actions that can be performed by the <see cref="AuthenticationManager{TAuthenticationState}"/>.
     /// </summary>
     public class RemoteAuthenticationActions
     {
         /// <summary>
-        /// The log in action.
+        /// The login action.
         /// </summary>
         public const string LogIn = "login";
 
         /// <summary>
-        /// The log in callback action.
+        /// The login callback action.
         /// </summary>
         public const string LogInCallback = "login-callback";
 
         /// <summary>
-        /// The log in failed action.
+        /// The login failed action.
         /// </summary>
         public const string LogInFailed = "login-failed";
 
@@ -34,22 +34,22 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public const string Register = "register";
 
         /// <summary>
-        /// The log out action.
+        /// The logout action.
         /// </summary>
         public const string LogOut = "logout";
 
         /// <summary>
-        /// The log out callback action.
+        /// The logout callback action.
         /// </summary>
         public const string LogOutCallback = "logout-callback";
 
         /// <summary>
-        /// The log out failed action.
+        /// The logout failed action.
         /// </summary>
         public const string LogOutFailed = "logout-failed";
 
         /// <summary>
-        /// The log out succeeded action.
+        /// The logout succeeded action.
         /// </summary>
         public const string LogOutSucceeded = "logged-out";
 

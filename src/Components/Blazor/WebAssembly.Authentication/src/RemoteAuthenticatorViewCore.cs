@@ -270,7 +270,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                         Navigation.NavigateTo(uri);
                         break;
                     default:
-                        throw new InvalidOperationException($"Invalid authentication result status '{result.Status ?? "(null)"}'.");
+                        throw new InvalidOperationException($"Invalid authentication result status '{result.Status}'.");
                 }
             }
         }
@@ -294,7 +294,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                     Navigation.NavigateTo(uri);
                     break;
                 default:
-                    throw new InvalidOperationException($"Invalid authentication result status '{result.Status ?? "(null)"}'.");
+                    throw new InvalidOperationException($"Invalid authentication result status '{result.Status}'.");
             }
         }
 

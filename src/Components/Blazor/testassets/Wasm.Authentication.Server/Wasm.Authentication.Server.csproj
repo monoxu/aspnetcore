@@ -22,10 +22,4 @@
     <ProjectReference Include="..\Wasm.Authentication.Shared\Wasm.Authentication.Shared.csproj" />
   </ItemGroup>
 
-  <Target Name="GetStaticWebAssetsManifest" Returns="@(_SWAManifest)" AfterTargets="GenerateStaticWebAssetsManifest">
-    <ItemGroup>
-      <_SWAManifest Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\$(_GeneratedStaticWebAssetsDevelopmentManifest)'))" />
-    </ItemGroup>
-  </Target>
-
 </Project>

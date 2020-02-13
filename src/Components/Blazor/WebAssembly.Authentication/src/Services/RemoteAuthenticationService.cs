@@ -34,6 +34,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         protected readonly IJSRuntime _jsRuntime;
 
         /// <summary>
+        /// The <see cref="NavigationManager"/> used to compute absolute urls.
+        /// </summary>
+        protected readonly NavigationManager _navigation;
+
+        /// <summary>
         /// The options for the underlying JavaScript library handling the authentication operations.
         /// </summary>
         protected readonly RemoteAuthenticationOptions<TProviderOptions> _options;
@@ -45,9 +50,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// <param name="options">The options to be passed down to the underlying JavaScript library handling the authentication operations.</param>
         public RemoteAuthenticationService(
             IJSRuntime jsRuntime,
-            IOptions<RemoteAuthenticationOptions<TProviderOptions>> options)
+            IOptions<RemoteAuthenticationOptions<TProviderOptions>> options,
+            NavigationManager navigation)
         {
             _jsRuntime = jsRuntime;
+            _navigation = navigation;
             _options = options.Value;
         }
 
@@ -120,8 +127,24 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// <inheritdoc />
         public virtual async ValueTask<AccessTokenResult> GetAccessToken(AccessTokenRequestOptions options)
         {
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
             await EnsureAuthService();
-            return await _jsRuntime.InvokeAsync<AccessTokenResult>("AuthenticationService.getAccessToken", options);
+            var result = await _jsRuntime.InvokeAsync<AccessTokenResult>("AuthenticationService.getAccessToken", options);
+
+            var returnUrl = options.ReturnUrl != null ? _navigation.ToAbsoluteUri(options.ReturnUrl).ToString() : null;
+            var encodedReturnUrl = Uri.EscapeDataString(returnUrl ?? _navigation.Uri);
+            var redirectUrl = _navigation.ToAbsoluteUri($"{_options.AuthenticationPaths.LogInPath}?returnUrl={encodedReturnUrl}");
+
+            if (string.Equals(result.Status, AccessTokenResultStatus.RequiresRedirect, StringComparison.OrdinalIgnoreCase))
+            {
+                result.RedirectUrl = redirectUrl.ToString();
+            }
+
+            return result;
         }
 
         private async ValueTask<ClaimsPrincipal> GetUser(bool useCache = false)

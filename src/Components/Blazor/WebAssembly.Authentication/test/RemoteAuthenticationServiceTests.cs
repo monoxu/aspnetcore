@@ -20,7 +20,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.SignInResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -49,7 +50,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.SignInResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -74,7 +76,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.CompleteSignInResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -103,7 +106,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.CompleteSignInResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -128,7 +132,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.SignOutResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -157,7 +162,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.SignOutResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -182,7 +188,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.CompleteSignOutResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -211,7 +218,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.CompleteSignOutResult = new RemoteAuthenticationResult<RemoteAuthenticationState>
@@ -236,7 +244,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.GetAccessTokenResult = new AccessTokenResult
@@ -269,19 +278,21 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var state = new RemoteAuthenticationState();
             testJsRuntime.GetAccessTokenResult = new AccessTokenResult
             {
                 Status = AccessTokenResultStatus.RequiresRedirect,
-                RedirectUrl = "https://www.example.com/base/auth/login"
             };
 
             var tokenOptions = new AccessTokenRequestOptions
             {
                 Scopes = new[] { "something" }
             };
+
+            var expectedRedirectUrl = "https://www.example.com/base/login?returnUrl=https%3A%2F%2Fwww.example.com%2Fbase%2Fadd-product";
 
             // Act
             var result = await runtime.GetAccessToken(tokenOptions);
@@ -292,6 +303,45 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 testJsRuntime.PastInvocations.Select(i => i.identifier).ToArray());
 
             Assert.Equal(result, testJsRuntime.GetAccessTokenResult);
+            Assert.Equal(expectedRedirectUrl, result.RedirectUrl);
+            Assert.Equal(tokenOptions, (AccessTokenRequestOptions)testJsRuntime.PastInvocations[^1].args[0]);
+        }
+
+        [Fact]
+        public async Task RemoteAuthenticationService_GetAccessToken_ComputesDefaultReturnUrlOnRequiresRedirect()
+        {
+            // Arrange
+            var testJsRuntime = new TestJsRuntime();
+            var options = CreateOptions();
+            var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
+                testJsRuntime,
+                options,
+                new TestNavigationManager());
+
+            var state = new RemoteAuthenticationState();
+            testJsRuntime.GetAccessTokenResult = new AccessTokenResult
+            {
+                Status = AccessTokenResultStatus.RequiresRedirect,
+            };
+
+            var tokenOptions = new AccessTokenRequestOptions
+            {
+                Scopes = new[] { "something" },
+                ReturnUrl = "https://www.example.com/base/add-saved-product/123413241234"
+            };
+
+            var expectedRedirectUrl = "https://www.example.com/base/login?returnUrl=https%3A%2F%2Fwww.example.com%2Fbase%2Fadd-saved-product%2F123413241234";
+
+            // Act
+            var result = await runtime.GetAccessToken(tokenOptions);
+
+            // Assert
+            Assert.Equal(
+                new[] { "AuthenticationService.init", "AuthenticationService.getAccessToken" },
+                testJsRuntime.PastInvocations.Select(i => i.identifier).ToArray());
+
+            Assert.Equal(result, testJsRuntime.GetAccessTokenResult);
+            Assert.Equal(expectedRedirectUrl, result.RedirectUrl);
             Assert.Equal(tokenOptions, (AccessTokenRequestOptions)testJsRuntime.PastInvocations[^1].args[0]);
         }
 
@@ -303,7 +353,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             testJsRuntime.GetUserResult = null;
 
@@ -328,7 +379,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions();
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var serializationOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, PropertyNameCaseInsensitive = true };
             var serializedUser = JsonSerializer.Serialize(new
@@ -360,7 +412,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var options = CreateOptions("scope");
             var runtime = new RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>(
                 testJsRuntime,
-                options);
+                options,
+                new TestNavigationManager());
 
             var serializationOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, PropertyNameCaseInsensitive = true };
             var serializedUser = JsonSerializer.Serialize(new
@@ -402,7 +455,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 {
                     AuthenticationPaths = new RemoteAuthenticationApplicationPathsOptions
                     {
-                        LogInPath = "a",
+                        LogInPath = "login",
                         LogInCallbackPath = "a",
                         LogInFailedPath = "a",
                         RegisterPath = "a",
@@ -488,5 +541,13 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 return default;
             }
         }
+    }
+
+    internal class TestNavigationManager : NavigationManager
+    {
+        public TestNavigationManager() =>
+            Initialize("https://www.example.com/base/", "https://www.example.com/base/add-product");
+
+        protected override void NavigateToCore(string uri, bool forceLoad) => throw new NotImplementedException();
     }
 }

@@ -47,18 +47,14 @@ else
 
         var tokenResult = await AuthenticationService.GetAccessToken();
 
-        switch (tokenResult.Status)
+        if (tokenResult.TryGetAccessToken(out var token))
         {
-            case AccessTokenResultStatus.Success:
-                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {tokenResult.Token.Value}");
-                forecasts = await httpClient.GetJsonAsync<WeatherForecast[]>("WeatherForecast");
-
-                break;
-            case AccessTokenResultStatus.RequiresRedirect:
-                Navigation.NavigateTo(tokenResult.RedirectUrl);
-                break;
-            default:
-                break;
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {tokenResult.Token.Value}");
+            forecasts = await httpClient.GetJsonAsync<WeatherForecast[]>("WeatherForecast");
+        }
+        else
+        {
+            Navigation.NavigateTo(tokenResult.RedirectUrl);
         }
     }
 }

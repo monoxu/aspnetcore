@@ -535,15 +535,19 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             var remoteAuthenticator = new RemoteAuthenticatorViewCore<RemoteAuthenticationState>();
             renderer.Attach(remoteAuthenticator);
 
-            remoteAuthenticator.Navigation = new TestNavigationManager(
+            var navigationManager = new TestNavigationManager(
                 baseUri,
                 currentUri);
+            remoteAuthenticator.Navigation = navigationManager;
 
             remoteAuthenticator.AuthenticationState = new RemoteAuthenticationState();
             remoteAuthenticator.ApplicationPaths = new RemoteAuthenticationApplicationPathsOptions();
 
             var jsRuntime = new TestJsRuntime();
-            var authenticationServiceMock = new TestRemoteAuthenticationService(jsRuntime, Mock.Of<IOptions<RemoteAuthenticationOptions<OidcProviderOptions>>>());
+            var authenticationServiceMock = new TestRemoteAuthenticationService(
+                jsRuntime,
+                Mock.Of<IOptions<RemoteAuthenticationOptions<OidcProviderOptions>>>(),
+                navigationManager);
 
             remoteAuthenticator.AuthenticationService = authenticationServiceMock;
             remoteAuthenticator.AuthenticationProvider = authenticationServiceMock;
@@ -598,7 +602,11 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private class TestRemoteAuthenticationService : RemoteAuthenticationService<RemoteAuthenticationState, OidcProviderOptions>
         {
-            public TestRemoteAuthenticationService(IJSRuntime jsRuntime, IOptions<RemoteAuthenticationOptions<OidcProviderOptions>> options) : base(jsRuntime, options)
+            public TestRemoteAuthenticationService(
+                IJSRuntime jsRuntime,
+                IOptions<RemoteAuthenticationOptions<OidcProviderOptions>> options,
+                TestNavigationManager navigationManager) :
+                base(jsRuntime, options, navigationManager)
             {
             }
 

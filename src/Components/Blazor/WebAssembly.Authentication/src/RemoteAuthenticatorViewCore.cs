@@ -287,6 +287,10 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                         throw new InvalidOperationException($"Invalid authentication result status '{result.Status ?? "(null)"}'.");
                 }
             }
+            else
+            {
+                Navigation.NavigateTo(returnUrl);
+            }
         }
 
         private async Task ProcessLogOutCallback()

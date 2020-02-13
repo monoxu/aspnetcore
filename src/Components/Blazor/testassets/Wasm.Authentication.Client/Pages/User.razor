@@ -23,9 +23,9 @@
 
 @if (AccessToken != null)
 {
-    <h2>Current time: @DateTimeOffset.Now</h2>
     <h2>Access token expires</h2>
-    <p>@AccessToken.Expires</p>
+    <p>Current time: <span id="current-time">@DateTimeOffset.Now</span></p>
+    <p id="access-token-expires">@AccessToken.Expires</p>
 
     <h2>Access token granted scopes (as reported by the API)</h2>
     @foreach (var scope in AccessToken.GrantedScopes)

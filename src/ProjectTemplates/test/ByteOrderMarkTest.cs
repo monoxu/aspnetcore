@@ -20,7 +20,7 @@ namespace Templates.Test
         }
 
         [Theory]
-        [InlineData("BlazorWasm.ProjectTemplates")]
+        [InlineData("Components.WebAssembly.ProjectTemplates")]
         public void JSAndJSONInAllTemplates_ShouldNotContainBOM(string projectName)
         {
             var currentDirectory = Directory.GetCurrentDirectory();

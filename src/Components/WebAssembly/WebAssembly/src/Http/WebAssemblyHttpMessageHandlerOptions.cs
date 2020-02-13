@@ -4,7 +4,7 @@
 using System;
 using System.Reflection;
 
-namespace Microsoft.AspNetCore.Blazor.Http
+namespace Microsoft.AspNetCore.Components.WebAssembly.Http
 {
     /// <summary>
     /// Configures options for the WebAssembly HTTP message handler.

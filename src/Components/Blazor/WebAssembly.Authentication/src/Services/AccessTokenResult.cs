@@ -11,7 +11,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// <summary>
         /// Gets or sets the status of the current operation. See <see cref="AccessTokenResultStatus"/> for a list of statuses.
         /// </summary>
-        public AccessTokenResultStatus Status { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="AccessToken"/> if <see cref="Status"/> is <see cref="AccessTokenResultStatus.Success"/>.

@@ -43,7 +43,7 @@ export enum AuthenticationResultStatus {
     Redirect = 'redirect',
     Success = 'success',
     Failure = 'failure',
-    OperationCompleted = 'operationCompleted'
+    OperationCompleted = 'operation-completed'
 };
 
 export interface AuthenticationResult {

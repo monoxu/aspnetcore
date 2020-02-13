@@ -42,7 +42,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         [InlineData(RemoteAuthenticationStatus.Redirect)]
         [InlineData(RemoteAuthenticationStatus.Failure)]
         [InlineData(RemoteAuthenticationStatus.OperationCompleted)]
-        public async Task RemoteAuthenticationService_SignIn_DoesNotUpdateUserOnOtherResult(RemoteAuthenticationStatus value)
+        public async Task RemoteAuthenticationService_SignIn_DoesNotUpdateUserOnOtherResult(string value)
         {
             // Arrange
             var testJsRuntime = new TestJsRuntime();
@@ -96,7 +96,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         [InlineData(RemoteAuthenticationStatus.Redirect)]
         [InlineData(RemoteAuthenticationStatus.Failure)]
         [InlineData(RemoteAuthenticationStatus.OperationCompleted)]
-        public async Task RemoteAuthenticationService_CompleteSignInAsync_DoesNotUpdateUserOnOtherResult(RemoteAuthenticationStatus value)
+        public async Task RemoteAuthenticationService_CompleteSignInAsync_DoesNotUpdateUserOnOtherResult(string value)
         {
             // Arrange
             var testJsRuntime = new TestJsRuntime();
@@ -150,7 +150,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         [InlineData(RemoteAuthenticationStatus.Redirect)]
         [InlineData(RemoteAuthenticationStatus.Failure)]
         [InlineData(RemoteAuthenticationStatus.OperationCompleted)]
-        public async Task RemoteAuthenticationService_SignOut_DoesNotUpdateUserOnOtherResult(RemoteAuthenticationStatus value)
+        public async Task RemoteAuthenticationService_SignOut_DoesNotUpdateUserOnOtherResult(string value)
         {
             // Arrange
             var testJsRuntime = new TestJsRuntime();
@@ -204,7 +204,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         [InlineData(RemoteAuthenticationStatus.Redirect)]
         [InlineData(RemoteAuthenticationStatus.Failure)]
         [InlineData(RemoteAuthenticationStatus.OperationCompleted)]
-        public async Task RemoteAuthenticationService_CompleteSignOutAsync_DoesNotUpdateUserOnOtherResult(RemoteAuthenticationStatus value)
+        public async Task RemoteAuthenticationService_CompleteSignOutAsync_DoesNotUpdateUserOnOtherResult(string value)
         {
             // Arrange
             var testJsRuntime = new TestJsRuntime();

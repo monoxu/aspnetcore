@@ -7,6 +7,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.E2ETest.Infrastructure;
 using Microsoft.AspNetCore.Components.E2ETest.Infrastructure.ServerFixtures;
 using Microsoft.AspNetCore.E2ETesting;
@@ -266,10 +267,12 @@ namespace Microsoft.AspNetCore.Components.E2ETest.Tests
         }
 
         [Fact]
-        public void CanNotTrigger_Logout_WithNavigation()
+        public async Task CanNotTrigger_Logout_WithNavigation()
         {
             Browser.Navigate().GoToUrl(new Uri(new Uri(Browser.Url), "/authentication/logout").AbsoluteUri);
             WaitUntilLoaded(skipHeader: true);
+            Browser.Contains("/authentication/logout-failed", () => Browser.Url);
+            await Task.Delay(3000);
             Browser.Contains("/authentication/logout-failed", () => Browser.Url);
         }
 

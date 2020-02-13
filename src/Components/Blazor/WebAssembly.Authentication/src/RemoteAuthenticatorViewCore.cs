@@ -100,9 +100,15 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         [Inject] public AuthenticationStateProvider AuthenticationProvider { get; set; }
 
         /// <summary>
+        /// Gets or sets a default <see cref="AuthenticationStateProvider"/> with the current user.
+        /// </summary>
+        [Inject] public SignOutSessionStateManager SignOutManager { get; set; }
+
+        /// <summary>
         /// Gets or sets the <see cref="RemoteAuthenticationApplicationPathsOptions"/> with the paths to different authentication pages.
         /// </summary>
-        [Parameter] public RemoteAuthenticationApplicationPathsOptions ApplicationPaths
+        [Parameter]
+        public RemoteAuthenticationApplicationPathsOptions ApplicationPaths
         {
             get => _applicationPaths ?? RemoteApplicationPathsProvider.ApplicationPaths;
             set => _applicationPaths = value;
@@ -249,10 +255,18 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private async Task ProcessLogOut(string returnUrl)
         {
+            if (!await SignOutManager.ValidateSignOutState())
+            {
+                var uri = $"{Navigation.ToAbsoluteUri(ApplicationPaths.LogOutFailedPath)}?message={Uri.EscapeDataString("The logout was not initiated from within the page.")}";
+                Navigation.NavigateTo(uri);
+
+                return;
+            }
+
             AuthenticationState.ReturnUrl = returnUrl;
+
             var state = await AuthenticationProvider.GetAuthenticationStateAsync();
             var isauthenticated = state.User.Identity.IsAuthenticated;
-
             if (isauthenticated)
             {
                 var result = await AuthenticationService.SignOutAsync(new RemoteAuthenticationContext<TAuthenticationState> { State = AuthenticationState });

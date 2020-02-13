@@ -19,18 +19,13 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             PropertyNameCaseInsensitive = true,
         };
 
-        /// <summary>
-        /// Gets the validity of the sign out state.
-        /// </summary>
-        public bool ValidSignOutState { get; private set; } = false;
-
         public SignOutSessionStateManager(IJSRuntime jsRuntime) => _jsRuntime = jsRuntime;
 
         /// <summary>
         /// Sets up some state in session storage to allow for logouts from within the <see cref="RemoteAuthenticationDefaults.LogoutPath"/> page.
         /// </summary>
         /// <returns>A <see cref="ValueTask"/> that completes when the state has been saved to session storage.</returns>
-        public ValueTask SetSignOutState()
+        public virtual ValueTask SetSignOutState()
         {
             return _jsRuntime.InvokeVoidAsync(
                 "sessionStorage.setItem",
@@ -43,16 +38,16 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         /// logouts from within the <see cref="RemoteAuthenticationDefaults.LogoutPath"/> page.
         /// </summary>
         /// <returns>A <see cref="ValueTask{bool}"/> that completes when the state has been validated and indicates the validity of the state.</returns>
-        public async Task<bool> ValidateSignOutState()
+        public virtual async Task<bool> ValidateSignOutState()
         {
             var state = await GetSignOutState();
             if (state.Local)
             {
                 await ClearSignOutState();
-                ValidSignOutState = true;
+                return true;
             }
 
-            return ValidSignOutState;
+            return false;
         }
 
         private async ValueTask<SignOutState> GetSignOutState()

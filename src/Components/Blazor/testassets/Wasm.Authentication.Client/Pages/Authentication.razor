@@ -1,29 +1,7 @@
 @page "/authentication/{action}"
-@using Microsoft.Extensions.Options
-
-@inject IOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>> Options
-@inject SignOutSessionStateManager SignOutSessionState
-@inject NavigationManager Navigation
 
 <RemoteAuthenticatorView Action="@Action" />
 
 @code{
     [Parameter] public string Action { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (RemoteAuthenticationActions.IsAction(RemoteAuthenticationActions.LogOut, Action) &&
-            !(await SignOutSessionState.ValidateSignOutState()))
-        {
-            string message = "The logout was not initiated from within the page";
-            Navigation.NavigateTo($"{Options.Value.AuthenticationPaths.LogOutFailedPath}?message={message}");
-        }
-    }
-
-
-    protected override bool ShouldRender()
-    {
-        return (!RemoteAuthenticationActions.IsAction(RemoteAuthenticationActions.LogOut, Action) || SignOutSessionState.ValidSignOutState) &&
-            base.ShouldRender();
-    }
 }

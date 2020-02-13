@@ -21,6 +21,19 @@
     <p>@(claim.Key): @claim.Value.ToString()</p>
 }
 
+@if (AccessToken != null)
+{
+    <h2>Current time: @DateTimeOffset.Now</h2>
+    <h2>Access token expires</h2>
+    <p>@AccessToken.Expires</p>
+
+    <h2>Access token granted scopes (as reported by the API)</h2>
+    @foreach (var scope in AccessToken.GrantedScopes)
+    {
+        <p>Scope: @scope</p>
+    }
+}
+
 @code {
     [CascadingParameter] private Task<AuthenticationState> AuthenticationState { get; set; }
 

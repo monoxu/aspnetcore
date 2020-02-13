@@ -151,6 +151,14 @@
                           $(RepoRoot)src\SignalR\**\*.csproj;
                           $(RepoRoot)src\Components\**\*.csproj;
                           $(RepoRoot)src\Analyzers\**\*.csproj;
+                          $(RepoRoot)src\FileProviders\**\*.csproj;
+                          $(RepoRoot)src\Configuration\**\*.csproj;
+                          $(RepoRoot)src\Localization\**\*.csproj;
+                          $(RepoRoot)src\ObjectPool\**\*.csproj;
+                          $(RepoRoot)src\JSInterop\**\*.csproj;
+                          $(RepoRoot)src\WebEncoders\**\*.csproj;
+                          $(RepoRoot)src\HealthChecks\**\*.csproj;
+                          $(RepoRoot)src\TestingUtils\**\*.csproj;
                           $(RepoRoot)src\ProjectTemplates\*\*.csproj;
                           $(RepoRoot)src\ProjectTemplates\testassets\*\*.csproj;
                           "

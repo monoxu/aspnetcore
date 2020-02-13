@@ -6,22 +6,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\src\**\*.cs"
-             Exclude="
-              ..\src\ReferenceAssemblyInfo.cs;
-              ..\src\BenchmarkRunner\**\*.cs;
-              ..\src\StackTrace\ExceptionDetails\**\*.cs;
-              " />
+    <Compile Include="
+      $(SharedSourceRoot)ActivatorUtilities\*.cs;
+      $(SharedSourceRoot)CommandLineUtils\**\*.cs;
+      $(SharedSourceRoot)HashCodeCombiner\*.cs;
+      $(SharedSourceRoot)HostFactoryResolver\*.cs;
+      $(SharedSourceRoot)NonCapturingTimer\*.cs;
+      $(SharedSourceRoot)ParameterDefaultValue\*.cs;
+      $(SharedSourceRoot)TypeNameHelper\*.cs;;
+      $(SharedSourceRoot)ValueStopwatch\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\testassets\BuildWebHostInvalidSignature\BuildWebHostInvalidSignature.csproj" />
-    <ProjectReference Include="..\testassets\BuildWebHostPatternTestSite\BuildWebHostPatternTestSite.csproj" />
-    <ProjectReference Include="..\testassets\CreateHostBuilderInvalidSignature\CreateHostBuilderInvalidSignature.csproj" />
-    <ProjectReference Include="..\testassets\CreateHostBuilderPatternTestSite\CreateHostBuilderPatternTestSite.csproj" />
-    <ProjectReference Include="..\testassets\CreateWebHostBuilderInvalidSignature\CreateWebHostBuilderInvalidSignature.csproj" />
-    <ProjectReference Include="..\testassets\CreateWebHostBuilderPatternTestSite\CreateWebHostBuilderPatternTestSite.csproj" />
-    <ProjectReference Include="..\testassets\MockHostTypes\MockHostTypes.csproj" />
+    <ProjectReference Include="..\..\testassets\BuildWebHostInvalidSignature\BuildWebHostInvalidSignature.csproj" />
+    <ProjectReference Include="..\..\testassets\BuildWebHostPatternTestSite\BuildWebHostPatternTestSite.csproj" />
+    <ProjectReference Include="..\..\testassets\CreateHostBuilderInvalidSignature\CreateHostBuilderInvalidSignature.csproj" />
+    <ProjectReference Include="..\..\testassets\CreateHostBuilderPatternTestSite\CreateHostBuilderPatternTestSite.csproj" />
+    <ProjectReference Include="..\..\testassets\CreateWebHostBuilderInvalidSignature\CreateWebHostBuilderInvalidSignature.csproj" />
+    <ProjectReference Include="..\..\testassets\CreateWebHostBuilderPatternTestSite\CreateWebHostBuilderPatternTestSite.csproj" />
+    <ProjectReference Include="..\..\testassets\MockHostTypes\MockHostTypes.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,6 +18,7 @@
     <Compile Include="$(SharedSourceRoot)SecurityHelper\**\*.cs" Link="Shared\SecurityHelper\%(Filename)%(Extension)"/>
     <Compile Include="$(SharedSourceRoot)StackTrace\StackFrame\**\*.cs" Link="Shared\StackTrace\%(Filename)%(Extension)"/>
     <Compile Include="$(SharedSourceRoot)WebEncoders\**\*.cs" Link="Shared\WebEncoders\%(Filename)%(Extension)"/>
+    <Compile Include="$(SharedSourceRoot)TypeNameHelper\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +27,6 @@
     <Reference Include="System.Security.Principal.Windows" />
     <Reference Include="System.Threading.Tasks.Extensions" />
     <Reference Include="Microsoft.AspNetCore.Http.Features" />
-    <Reference Include="Microsoft.Extensions.TypeNameHelper.Sources" />
     <Reference Include="Microsoft.Net.Http.Headers" />
   </ItemGroup>
 

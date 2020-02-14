@@ -14,6 +14,7 @@ namespace BlazorWasm_CSharp.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddBlazorStaticFilesConfiguration();
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
@@ -33,14 +34,13 @@ namespace BlazorWasm_CSharp.Server
             }
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<Client.Program>();
 
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToClientSideBlazor<Client.Program>("index.html");
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }
